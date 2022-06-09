@@ -11,7 +11,7 @@
             "role": "Developer"
         }
     ],
-    "homepage": "https://github.com/php-tuf/composer-stager",
+    "homepage": "https://github.com/php-tuf/composer-stager-console",
     "require": {
         "php": "^7.3 || ^8.0",
         "php-tuf/composer-stager": "^v0.2.3",
