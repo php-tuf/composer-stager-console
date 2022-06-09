@@ -2,8 +2,9 @@
 
 namespace PhpTuf\ComposerStagerConsole\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\CommitterInterface;
-use PhpTuf\ComposerStager\Exception\ExceptionInterface;
+use PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface;
+use PhpTuf\ComposerStager\Domain\Exception\ExceptionInterface;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -16,14 +17,18 @@ final class CommitCommand extends AbstractCommand
 {
     private const NAME = 'commit';
 
-    /** @var \PhpTuf\ComposerStager\Domain\CommitterInterface */
+    /** @var \PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface */
     private $committer;
 
-    public function __construct(CommitterInterface $committer)
+    /** @var \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface */
+    private $pathFactory;
+
+    public function __construct(CommitterInterface $committer, PathFactoryInterface $pathFactory)
     {
         parent::__construct(self::NAME);
 
         $this->committer = $committer;
+        $this->pathFactory = $pathFactory;
     }
 
     protected function configure(): void
@@ -42,14 +47,11 @@ final class CommitCommand extends AbstractCommand
     {
         $activeDir = $input->getOption(Application::ACTIVE_DIR_OPTION);
         assert(is_string($activeDir));
+        $activeDir = $this->pathFactory::create($activeDir);
+
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
         assert(is_string($stagingDir));
-
-        if (!$this->committer->directoryExists($stagingDir)) {
-            $output->writeln(sprintf('<error>The staging directory does not exist at "%s"</error>', $stagingDir));
-
-            return self::FAILURE;
-        }
+        $stagingDir = $this->pathFactory::create($stagingDir);
 
         if (!$this->confirm($input, $output)) {
             return self::FAILURE;
@@ -63,7 +65,7 @@ final class CommitCommand extends AbstractCommand
             $this->committer->commit(
                 $stagingDir,
                 $activeDir,
-                [],
+                null,
                 new ProcessOutputCallback($input, $output),
             );
 

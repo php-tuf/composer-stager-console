@@ -10,45 +10,21 @@ services:
         resource: '../src/*'
         public: true
         exclude:
-            - '../src/Console/Output/*'
+            - '../src/Console/Output'
 
     PhpTuf\ComposerStager\:
         resource: '../vendor/php-tuf/composer-stager/src/*'
         public: true
         exclude:
-            - '../vendor/php-tuf/composer-stager/src/Exception'
+            - '../vendor/php-tuf/composer-stager/src/Domain/Exception'
+            - '../vendor/php-tuf/composer-stager/src/Infrastructure/Value'
 
-    PhpTuf\ComposerStager\Domain\BeginnerInterface:
-        class: PhpTuf\ComposerStager\Domain\Beginner
-    PhpTuf\ComposerStager\Domain\CleanerInterface:
-        class: PhpTuf\ComposerStager\Domain\Cleaner
-    PhpTuf\ComposerStager\Domain\CommitterInterface:
-        class: PhpTuf\ComposerStager\Domain\Committer
-    PhpTuf\ComposerStager\Domain\StagerInterface:
-        class: PhpTuf\ComposerStager\Domain\Stager
-    PhpTuf\ComposerStager\Infrastructure\FileSyncer\FileSyncerFactory:
+    PhpTuf\ComposerStager\Infrastructure\Factory\FileSyncer\FileSyncerFactory:
         arguments:
-            $phpFileSyncer: '@PhpTuf\ComposerStager\Infrastructure\FileSyncer\PhpFileSyncer'
-            $rsyncFileSyncer: '@PhpTuf\ComposerStager\Infrastructure\FileSyncer\RsyncFileSyncer'
-    PhpTuf\ComposerStager\Domain\FileSyncer\FileSyncerInterface:
-        factory: [ '@PhpTuf\ComposerStager\Infrastructure\FileSyncer\FileSyncerFactory', 'create' ]
-    PhpTuf\ComposerStager\Infrastructure\FileSyncer\PhpFileSyncer: ~
-    PhpTuf\ComposerStager\Infrastructure\FileSyncer\PhpFileSyncerInterface:
-        class: PhpTuf\ComposerStager\Infrastructure\FileSyncer\PhpFileSyncer
-    PhpTuf\ComposerStager\Infrastructure\FileSyncer\RsyncFileSyncer: ~
-    PhpTuf\ComposerStager\Infrastructure\FileSyncer\RsyncFileSyncerInterface:
-        class: PhpTuf\ComposerStager\Infrastructure\FileSyncer\RsyncFileSyncer
-    PhpTuf\ComposerStager\Infrastructure\Filesystem\FilesystemInterface:
-        class: PhpTuf\ComposerStager\Infrastructure\Filesystem\Filesystem
-    PhpTuf\ComposerStager\Infrastructure\Process\ExecutableFinderInterface:
-        class: PhpTuf\ComposerStager\Infrastructure\Process\ExecutableFinder
-    PhpTuf\ComposerStager\Infrastructure\Process\Runner\ComposerRunnerInterface:
-        class: PhpTuf\ComposerStager\Infrastructure\Process\Runner\ComposerRunner
-    PhpTuf\ComposerStager\Infrastructure\Process\ProcessFactoryInterface:
-        class: PhpTuf\ComposerStager\Infrastructure\Process\ProcessFactory
-    PhpTuf\ComposerStager\Infrastructure\Process\Runner\RsyncRunnerInterface:
-        class: PhpTuf\ComposerStager\Infrastructure\Process\Runner\RsyncRunner
+            $phpFileSyncer: '@PhpTuf\ComposerStager\Infrastructure\Service\FileSyncer\PhpFileSyncer'
+            $rsyncFileSyncer: '@PhpTuf\ComposerStager\Infrastructure\Service\FileSyncer\RsyncFileSyncer'
+    PhpTuf\ComposerStager\Domain\Service\FileSyncer\FileSyncerInterface:
+        factory: [ '@PhpTuf\ComposerStager\Infrastructure\Factory\FileSyncer\FileSyncerFactory', 'create' ]
 
     Symfony\Component\Filesystem\Filesystem: ~
-    Symfony\Component\Finder\Finder: ~
     Symfony\Component\Process\ExecutableFinder: ~

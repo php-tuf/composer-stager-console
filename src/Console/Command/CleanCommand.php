@@ -2,8 +2,9 @@
 
 namespace PhpTuf\ComposerStagerConsole\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\CleanerInterface;
-use PhpTuf\ComposerStager\Exception\ExceptionInterface;
+use PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface;
+use PhpTuf\ComposerStager\Domain\Exception\ExceptionInterface;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -16,14 +17,18 @@ final class CleanCommand extends AbstractCommand
 {
     private const NAME = 'clean';
 
-    /** @var \PhpTuf\ComposerStager\Domain\CleanerInterface */
+    /** @var \PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface */
     private $cleaner;
 
-    public function __construct(CleanerInterface $cleaner)
+    /** @var \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface */
+    private $pathFactory;
+
+    public function __construct(CleanerInterface $cleaner, PathFactoryInterface $pathFactory)
     {
         parent::__construct(self::NAME);
 
         $this->cleaner = $cleaner;
+        $this->pathFactory = $pathFactory;
     }
 
     protected function configure(): void
@@ -38,14 +43,13 @@ final class CleanCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $activeDir = $input->getOption(Application::ACTIVE_DIR_OPTION);
+        assert(is_string($activeDir));
+        $activeDir = $this->pathFactory::create($activeDir);
+
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
         assert(is_string($stagingDir));
-
-        if (!$this->cleaner->directoryExists($stagingDir)) {
-            $output->writeln(sprintf('<error>The staging directory does not exist at "%s"</error>', $stagingDir));
-
-            return self::FAILURE;
-        }
+        $stagingDir = $this->pathFactory::create($stagingDir);
 
         if (!$this->confirm($input, $output)) {
             return self::FAILURE;
@@ -57,6 +61,7 @@ final class CleanCommand extends AbstractCommand
         // ---------------------------------------------------------------------
         try {
             $this->cleaner->clean(
+                $activeDir,
                 $stagingDir,
                 new ProcessOutputCallback($input, $output),
             );

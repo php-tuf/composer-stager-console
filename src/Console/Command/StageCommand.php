@@ -2,8 +2,9 @@
 
 namespace PhpTuf\ComposerStagerConsole\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\StagerInterface;
-use PhpTuf\ComposerStager\Exception\ExceptionInterface;
+use PhpTuf\ComposerStager\Domain\Core\Stager\StagerInterface;
+use PhpTuf\ComposerStager\Domain\Exception\ExceptionInterface;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,13 +16,17 @@ final class StageCommand extends AbstractCommand
 {
     private const NAME = 'stage';
 
-    /** @var \PhpTuf\ComposerStager\Domain\StagerInterface */
+    /** @var \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface */
+    private $pathFactory;
+
+    /** @var \PhpTuf\ComposerStager\Domain\Core\Stager\StagerInterface */
     private $stager;
 
-    public function __construct(StagerInterface $stager)
+    public function __construct(PathFactoryInterface $pathFactory, StagerInterface $stager)
     {
         parent::__construct(self::NAME);
 
+        $this->pathFactory = $pathFactory;
         $this->stager = $stager;
     }
 
@@ -60,8 +65,14 @@ final class StageCommand extends AbstractCommand
     {
         /** @var array<string> $composerCommand */
         $composerCommand = $input->getArgument('composer-command');
+
+        $activeDir = $input->getOption(Application::ACTIVE_DIR_OPTION);
+        assert(is_string($activeDir));
+        $activeDir = $this->pathFactory::create($activeDir);
+
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
         assert(is_string($stagingDir));
+        $stagingDir = $this->pathFactory::create($stagingDir);
 
         // ---------------------------------------------------------------------
         // (!) Here is the substance of the example. Invoke the Composer Stager
@@ -70,6 +81,7 @@ final class StageCommand extends AbstractCommand
         try {
             $this->stager->stage(
                 $composerCommand,
+                $activeDir,
                 $stagingDir,
                 new ProcessOutputCallback($input, $output),
             );

@@ -2,9 +2,9 @@
 
 namespace PhpTuf\ComposerStagerConsole\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\BeginnerInterface;
-use PhpTuf\ComposerStager\Exception\DirectoryAlreadyExistsException;
-use PhpTuf\ComposerStager\Exception\ExceptionInterface;
+use PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface;
+use PhpTuf\ComposerStager\Domain\Exception\ExceptionInterface;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,14 +15,18 @@ final class BeginCommand extends AbstractCommand
 {
     private const NAME = 'begin';
 
-    /** @var \PhpTuf\ComposerStager\Domain\BeginnerInterface */
+    /** @var \PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface */
     private $beginner;
 
-    public function __construct(BeginnerInterface $beginner)
+    /** @var \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactory */
+    private $pathFactory;
+
+    public function __construct(BeginnerInterface $beginner, PathFactoryInterface $pathFactory)
     {
         parent::__construct(self::NAME);
 
         $this->beginner = $beginner;
+        $this->pathFactory = $pathFactory;
     }
 
     protected function configure(): void
@@ -35,8 +39,11 @@ final class BeginCommand extends AbstractCommand
     {
         $activeDir = $input->getOption(Application::ACTIVE_DIR_OPTION);
         assert(is_string($activeDir));
+        $activeDir = $this->pathFactory::create($activeDir);
+
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
         assert(is_string($stagingDir));
+        $stagingDir = $this->pathFactory::create($stagingDir);
 
         // ---------------------------------------------------------------------
         // (!) Here is the substance of the example. Invoke the Composer Stager
@@ -46,19 +53,14 @@ final class BeginCommand extends AbstractCommand
             $this->beginner->begin(
                 $activeDir,
                 $stagingDir,
-                [],
+                null,
                 new ProcessOutputCallback($input, $output),
             );
 
             return self::SUCCESS;
-        } catch (DirectoryAlreadyExistsException $e) {
+        } catch (ExceptionInterface $e) {
             // Error-handling specifics may differ for your application. This
             // example outputs errors to the terminal.
-            $output->writeln("<error>{$e->getMessage()}</error>");
-            $output->writeln('Hint: Use the "clean" command to remove the staging directory');
-
-            return self::FAILURE;
-        } catch (ExceptionInterface $e) {
             $output->writeln("<error>{$e->getMessage()}</error>");
 
             return self::FAILURE;

@@ -2,9 +2,10 @@
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\CommitterInterface;
-use PhpTuf\ComposerStager\Exception\DirectoryNotFoundException;
-use PhpTuf\ComposerStager\Exception\ProcessFailedException;
+use PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface;
+use PhpTuf\ComposerStager\Domain\Exception\InvalidArgumentException;
+use PhpTuf\ComposerStager\Domain\Exception\RuntimeException;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactory;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand;
@@ -22,7 +23,7 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
  *
- * @property \PhpTuf\ComposerStager\Domain\CommitterInterface|\Prophecy\Prophecy\ObjectProphecy committer
+ * @property \PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface|\Prophecy\Prophecy\ObjectProphecy committer
  */
 final class CommitCommandUnitTest extends CommandTestCase
 {
@@ -31,9 +32,6 @@ final class CommitCommandUnitTest extends CommandTestCase
         $this->committer = $this->prophesize(CommitterInterface::class);
         $this->committer
             ->commit(Argument::cetera());
-        $this->committer
-            ->directoryExists(Argument::cetera())
-            ->willReturn(true);
 
         parent::setUp();
     }
@@ -41,8 +39,9 @@ final class CommitCommandUnitTest extends CommandTestCase
     protected function createSut(): Command
     {
         $committer = $this->committer->reveal();
+        $pathFactory = new PathFactory();
 
-        return new CommitCommand($committer);
+        return new CommitCommand($committer, $pathFactory);
     }
 
     /** @covers ::configure */
@@ -69,8 +68,10 @@ final class CommitCommandUnitTest extends CommandTestCase
      */
     public function testBasicExecution($activeDir, $stagingDir): void
     {
+        $activeDirPath = PathFactory::create($activeDir);
+        $stagingDirPath = PathFactory::create($stagingDir);
         $this->committer
-            ->commit($stagingDir, $activeDir, [], Argument::type(ProcessOutputCallback::class))
+            ->commit($stagingDirPath, $activeDirPath, null, Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();
 
         $this->executeCommand([
@@ -95,22 +96,6 @@ final class CommitCommandUnitTest extends CommandTestCase
                 'stagingDir' => '/seven/eight',
             ],
         ];
-    }
-
-    /** @covers ::execute */
-    public function testStagingDirectoryNotFound(): void
-    {
-        $this->committer
-            ->directoryExists(Argument::cetera())
-            ->willReturn(false);
-        $this->committer
-            ->commit(Argument::cetera())
-            ->shouldNotBeCalled();
-
-        $this->executeCommand(['--no-interaction' => true]);
-
-        self::assertStringContainsString('staging directory does not exist', $this->getDisplay(), 'Displayed correct output.');
-        self::assertSame(AbstractCommand::FAILURE, $this->getStatusCode(), 'Returned correct status code.');
     }
 
     /**
@@ -167,8 +152,8 @@ final class CommitCommandUnitTest extends CommandTestCase
     public function providerCommandFailure(): array
     {
         return [
-            ['exception' => new DirectoryNotFoundException('', 'Ipsum'), 'message' => 'Ipsum'],
-            ['exception' => new ProcessFailedException('Dolor'), 'message' => 'Dolor'],
+            ['exception' => new InvalidArgumentException('Ipsum'), 'message' => 'Ipsum'],
+            ['exception' => new RuntimeException('Dolor'), 'message' => 'Dolor'],
         ];
     }
 }

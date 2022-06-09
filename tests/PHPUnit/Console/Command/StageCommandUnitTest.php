@@ -2,11 +2,10 @@
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\StagerInterface;
-use PhpTuf\ComposerStager\Exception\DirectoryNotFoundException;
-use PhpTuf\ComposerStager\Exception\DirectoryNotWritableException;
-use PhpTuf\ComposerStager\Exception\InvalidArgumentException;
-use PhpTuf\ComposerStager\Exception\ProcessFailedException;
+use PhpTuf\ComposerStager\Domain\Core\Stager\StagerInterface;
+use PhpTuf\ComposerStager\Domain\Exception\InvalidArgumentException;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactory;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\StageCommand;
@@ -23,12 +22,13 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\StageCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
  *
- * @property \PhpTuf\ComposerStager\Domain\Stager|\Prophecy\Prophecy\ObjectProphecy stager
+ * @property \PhpTuf\ComposerStager\Domain\Core\Stager\Stager|\Prophecy\Prophecy\ObjectProphecy stager
  */
 final class StageCommandUnitTest extends CommandTestCase
 {
     protected function setUp(): void
     {
+        $this->pathFactory = $this->prophesize(PathFactoryInterface::class);
         $this->stager = $this->prophesize(StagerInterface::class);
 
         parent::setUp();
@@ -36,9 +36,10 @@ final class StageCommandUnitTest extends CommandTestCase
 
     protected function createSut(): Command
     {
+        $pathFactory = new PathFactory();
         $stager = $this->stager->reveal();
 
-        return new StageCommand($stager);
+        return new StageCommand($pathFactory, $stager);
     }
 
     /** @covers ::configure */
@@ -61,7 +62,7 @@ final class StageCommandUnitTest extends CommandTestCase
 
         self::assertTrue($composerCommandArgument->isRequired(), 'Required Composer command option.');
         self::assertTrue($composerCommandArgument->isArray(), 'Set Composer command to array.');
-        self::assertNotEmpty($composerCommandArgument->getDescription(), "Description provided.");
+        self::assertNotEmpty($composerCommandArgument->getDescription(), 'Description provided.');
     }
 
     /**
@@ -69,14 +70,17 @@ final class StageCommandUnitTest extends CommandTestCase
      *
      * @dataProvider providerBasicExecution
      */
-    public function testBasicExecution($composerCommand, $stagingDir): void
+    public function testBasicExecution($composerCommand, $activeDir, $stagingDir): void
     {
+        $activeDirPath = PathFactory::create($activeDir);
+        $stagingDirPath = PathFactory::create($stagingDir);
         $this->stager
-            ->stage($composerCommand, $stagingDir, Argument::any())
+            ->stage($composerCommand, $activeDirPath, $stagingDirPath, Argument::any())
             ->shouldBeCalledOnce();
 
         $this->executeCommand([
             'composer-command' => $composerCommand,
+            sprintf('--%s', Application::ACTIVE_DIR_OPTION) => $activeDir,
             sprintf('--%s', Application::STAGING_DIR_OPTION) => $stagingDir,
         ]);
 
@@ -89,25 +93,26 @@ final class StageCommandUnitTest extends CommandTestCase
         return [
             [
                 'composerCommand' => [self::INERT_COMMAND],
-                'stagingDir' => 'one/two',
+                'activeDir' => 'one/two',
+                'stagingDir' => 'three/four',
             ],
             [
                 'composerCommand' => [
                     'update',
                     '--with-all-dependencies',
                 ],
-                'stagingDir' => 'three/four',
+                'activeDir' => 'five/six',
+                'stagingDir' => 'siven/eight',
             ],
         ];
     }
 
-    /**
-     * @covers ::execute
-     *
-     * @dataProvider providerCommandFailure
-     */
-    public function testCommandFailure($exception, $message): void
+    /** @covers ::execute */
+    public function testCommandFailure(): void
     {
+        $message = 'Dolor';
+        $exception = new InvalidArgumentException('Dolor');
+
         $this->stager
             ->stage(Argument::cetera())
             ->willThrow($exception);
@@ -116,15 +121,5 @@ final class StageCommandUnitTest extends CommandTestCase
 
         self::assertSame($message . PHP_EOL, $this->getDisplay(), 'Displayed correct output.');
         self::assertSame(AbstractCommand::FAILURE, $this->getStatusCode(), 'Returned correct status code.');
-    }
-
-    public function providerCommandFailure(): array
-    {
-        return [
-            ['exception' => new DirectoryNotFoundException(self::STAGING_DIR, 'Lorem'), 'message' => 'Lorem'],
-            ['exception' => new DirectoryNotWritableException(self::STAGING_DIR, 'Ipsum'), 'message' => 'Ipsum'],
-            ['exception' => new InvalidArgumentException('Dolor'), 'message' => 'Dolor'],
-            ['exception' => new ProcessFailedException('Sit'), 'message' => 'Sit'],
-        ];
     }
 }

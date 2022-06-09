@@ -2,12 +2,12 @@
 
 namespace PhpTuf\ComposerStagerConsole\Console\Output;
 
-use PhpTuf\ComposerStager\Domain\Process\OutputCallbackInterface;
+use PhpTuf\ComposerStager\Domain\Service\ProcessOutputCallback\ProcessOutputCallbackInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /** @internal */
-final class ProcessOutputCallback implements OutputCallbackInterface
+final class ProcessOutputCallback implements ProcessOutputCallbackInterface
 {
     /** @var \Symfony\Component\Console\Output\OutputInterface */
     private $output;

@@ -2,10 +2,11 @@
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\BeginnerInterface;
-use PhpTuf\ComposerStager\Exception\DirectoryAlreadyExistsException;
-use PhpTuf\ComposerStager\Exception\DirectoryNotFoundException;
-use PhpTuf\ComposerStager\Exception\ProcessFailedException;
+use PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface;
+use PhpTuf\ComposerStager\Domain\Exception\InvalidArgumentException;
+use PhpTuf\ComposerStager\Domain\Exception\RuntimeException;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactory;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand;
@@ -23,7 +24,7 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
  *
- * @property \PhpTuf\ComposerStager\Domain\BeginnerInterface|\Prophecy\Prophecy\ObjectProphecy beginner
+ * @property \PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface|\Prophecy\Prophecy\ObjectProphecy beginner
  */
 final class BeginCommandUnitTest extends CommandTestCase
 {
@@ -32,6 +33,7 @@ final class BeginCommandUnitTest extends CommandTestCase
         $this->beginner = $this->prophesize(BeginnerInterface::class);
         $this->beginner
             ->begin(Argument::cetera());
+        $this->pathFactory = $this->prophesize(PathFactoryInterface::class);
 
         parent::setUp();
     }
@@ -39,8 +41,9 @@ final class BeginCommandUnitTest extends CommandTestCase
     protected function createSut(): Command
     {
         $beginner = $this->beginner->reveal();
+        $pathFactory = new PathFactory();
 
-        return new BeginCommand($beginner);
+        return new BeginCommand($beginner, $pathFactory);
     }
 
     /** @covers ::configure */
@@ -63,9 +66,11 @@ final class BeginCommandUnitTest extends CommandTestCase
     public function testBasicExecution(): void
     {
         $activeDir = 'one/two';
+        $activeDirPath = PathFactory::create('one/two');
         $stagingDir = 'three/four';
+        $stagingDirPath = PathFactory::create('three/four');
         $this->beginner
-            ->begin($activeDir, $stagingDir, [], Argument::type(ProcessOutputCallback::class))
+            ->begin($activeDirPath, $stagingDirPath, null, Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();
 
         $this->executeCommand([
@@ -75,29 +80,6 @@ final class BeginCommandUnitTest extends CommandTestCase
 
         self::assertSame('', $this->getDisplay(), 'Displayed correct output.');
         self::assertSame(AbstractCommand::SUCCESS, $this->getStatusCode(), 'Returned correct status code.');
-    }
-
-    /**
-     * @covers ::execute
-     *
-     * @uses \PhpTuf\ComposerStager\Exception\DirectoryAlreadyExistsException
-     * @uses \PhpTuf\ComposerStager\Exception\PathException
-     */
-    public function testStagingDirectoryAlreadyExists(): void
-    {
-        $message = 'Lorem ipsum';
-        $this->beginner
-            ->begin(Argument::cetera())
-            ->willThrow(new DirectoryAlreadyExistsException('lorem/ipsum', $message));
-
-        $this->executeCommand([]);
-
-        $display = implode(PHP_EOL, [
-            $message,
-            'Hint: Use the "clean" command to remove the staging directory',
-        ]) . PHP_EOL;
-        self::assertSame($display, $this->getDisplay(), 'Displayed correct output.');
-        self::assertSame(AbstractCommand::FAILURE, $this->getStatusCode(), 'Returned correct status code.');
     }
 
     /**
@@ -120,8 +102,8 @@ final class BeginCommandUnitTest extends CommandTestCase
     public function providerCommandFailure(): array
     {
         return [
-            ['exception' => new DirectoryNotFoundException('', 'Ipsum'), 'message' => 'Ipsum'],
-            ['exception' => new ProcessFailedException('Dolor'), 'message' => 'Dolor'],
+            ['exception' => new InvalidArgumentException('Lorem'), 'message' => 'Lorem'],
+            ['exception' => new RuntimeException('Ipsum'), 'message' => 'Ipsum'],
         ];
     }
 }

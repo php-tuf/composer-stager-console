@@ -2,9 +2,9 @@
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\CleanerInterface;
-use PhpTuf\ComposerStager\Exception\DirectoryNotWritableException;
-use PhpTuf\ComposerStager\Exception\IOException;
+use PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface;
+use PhpTuf\ComposerStager\Domain\Exception\RuntimeException;
+use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactory;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand;
@@ -23,7 +23,7 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::confirm
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback::__construct
  *
- * @property \PhpTuf\ComposerStager\Domain\Cleaner|\Prophecy\Prophecy\ObjectProphecy cleaner
+ * @property \PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface|\Prophecy\Prophecy\ObjectProphecy cleaner
  */
 final class CleanCommandUnitTest extends CommandTestCase
 {
@@ -32,9 +32,6 @@ final class CleanCommandUnitTest extends CommandTestCase
         $this->cleaner = $this->prophesize(CleanerInterface::class);
         $this->cleaner
             ->clean(Argument::cetera());
-        $this->cleaner
-            ->directoryExists(Argument::cetera())
-            ->willReturn(true);
 
         parent::setUp();
     }
@@ -42,8 +39,9 @@ final class CleanCommandUnitTest extends CommandTestCase
     protected function createSut(): Command
     {
         $cleaner = $this->cleaner->reveal();
+        $pathFactory = new PathFactory();
 
-        return new CleanCommand($cleaner);
+        return new CleanCommand($cleaner, $pathFactory);
     }
 
     /** @covers ::configure */
@@ -68,34 +66,20 @@ final class CleanCommandUnitTest extends CommandTestCase
      */
     public function testBasicExecution(): void
     {
-
+        $activeDir = PathFactory::create(self::ACTIVE_DIR);
+        $stagingDir = PathFactory::create(self::STAGING_DIR);
         $this->cleaner
-            ->clean(self::STAGING_DIR, Argument::type(ProcessOutputCallback::class))
+            ->clean($activeDir, $stagingDir, Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();
 
         $this->executeCommand([
+            sprintf('--%s', Application::ACTIVE_DIR_OPTION) => self::ACTIVE_DIR,
             sprintf('--%s', Application::STAGING_DIR_OPTION) => self::STAGING_DIR,
             '--no-interaction' => true,
         ]);
 
         self::assertSame('', $this->getDisplay(), 'Displayed correct output.');
         self::assertSame(AbstractCommand::SUCCESS, $this->getStatusCode(), 'Returned correct status code.');
-    }
-
-    /** @covers ::execute */
-    public function testStagingDirectoryNotFound(): void
-    {
-        $this->cleaner
-            ->directoryExists(Argument::cetera())
-            ->willReturn(false);
-        $this->cleaner
-            ->clean(Argument::cetera())
-            ->shouldNotBeCalled();
-
-        $this->executeCommand(['--no-interaction' => true]);
-
-        self::assertStringContainsString('staging directory does not exist', $this->getDisplay(), 'Displayed correct output.');
-        self::assertSame(AbstractCommand::FAILURE, $this->getStatusCode(), 'Returned correct status code.');
     }
 
     /**
@@ -132,13 +116,12 @@ final class CleanCommandUnitTest extends CommandTestCase
         ];
     }
 
-    /**
-     * @covers ::execute
-     *
-     * @dataProvider providerCommandFailure
-     */
-    public function testCommandFailure($exception, $message): void
+    /** @covers ::execute */
+    public function testCommandFailure(): void
     {
+        $message = 'Lorem';
+        $exception = new RuntimeException($message);
+
         $this->cleaner
             ->clean(Argument::cetera())
             ->willThrow($exception);
@@ -147,13 +130,5 @@ final class CleanCommandUnitTest extends CommandTestCase
 
         self::assertSame($message . PHP_EOL, $this->getDisplay(), 'Displayed correct output.');
         self::assertSame(AbstractCommand::FAILURE, $this->getStatusCode(), 'Returned correct status code.');
-    }
-
-    public function providerCommandFailure(): array
-    {
-        return [
-            ['exception' => new IOException('Lorem'), 'message' => 'Lorem'],
-            ['exception' => new DirectoryNotWritableException(self::STAGING_DIR, 'Ipsum'), 'message' => 'Ipsum'],
-        ];
     }
 }
