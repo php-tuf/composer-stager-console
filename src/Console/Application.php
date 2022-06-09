@@ -18,11 +18,10 @@ final class Application extends DefaultApplication
     public const STAGING_DIR_DEFAULT = '.composer_staging';
 
     private const NAME = 'Composer Stager';
-    private const VERSION = 'v0.2.3-dev';
 
     public function __construct()
     {
-        parent::__construct(self::NAME, self::VERSION);
+        parent::__construct(self::NAME);
     }
 
     /**
