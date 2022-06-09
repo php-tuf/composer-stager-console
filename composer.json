@@ -14,7 +14,7 @@
     "homepage": "https://github.com/php-tuf/composer-stager-console",
     "require": {
         "php": "^7.3 || ^8.0",
-        "php-tuf/composer-stager": "^v0.2.3",
+        "php-tuf/composer-stager": "0.3.0",
         "symfony/config": "^4.4 || ^5.2",
         "symfony/console": "^4.4 || ^5.2",
         "symfony/dependency-injection": "^4.4 || ^5.2",

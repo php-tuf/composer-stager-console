@@ -2,13 +2,13 @@
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStager\Domain\CleanerInterface;
 use PhpTuf\ComposerStager\Exception\DirectoryNotWritableException;
 use PhpTuf\ComposerStager\Exception\IOException;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand;
+use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
 use Symfony\Component\Console\Command\Command;
@@ -18,10 +18,10 @@ use Symfony\Component\Console\Command\Command;
  *
  * @covers \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::__construct
  *
- * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback::__construct
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::configure
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::confirm
+ * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback::__construct
  *
  * @property \PhpTuf\ComposerStager\Domain\Cleaner|\Prophecy\Prophecy\ObjectProphecy cleaner
  */

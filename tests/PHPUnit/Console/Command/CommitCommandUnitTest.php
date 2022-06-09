@@ -3,12 +3,12 @@
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
 use PhpTuf\ComposerStager\Domain\CommitterInterface;
-use PhpTuf\ComposerStager\Domain\Output\ProcessOutputCallbackInterface;
 use PhpTuf\ComposerStager\Exception\DirectoryNotFoundException;
 use PhpTuf\ComposerStager\Exception\ProcessFailedException;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand;
+use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
 use Symfony\Component\Console\Command\Command;
@@ -18,9 +18,9 @@ use Symfony\Component\Console\Command\Command;
  *
  * @covers \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand::__construct
  *
- * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand
+ * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
  *
  * @property \PhpTuf\ComposerStager\Domain\CommitterInterface|\Prophecy\Prophecy\ObjectProphecy committer
  */
@@ -70,7 +70,7 @@ final class CommitCommandUnitTest extends CommandTestCase
     public function testBasicExecution($activeDir, $stagingDir): void
     {
         $this->committer
-            ->commit($stagingDir, $activeDir, null, Argument::type(ProcessOutputCallbackInterface::class))
+            ->commit($stagingDir, $activeDir, [], Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();
 
         $this->executeCommand([

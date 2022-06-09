@@ -8,7 +8,7 @@
 
 ## Warning!
 
-This repository is for illustration only. **It is unsupported.** There are no plans to release it as an official, supported package unless the community indicates adequate demand. Furthermore, it is based [on a version of Composer Stager](https://github.com/php-tuf/composer-stager/tree/v0.2.3) from the very early stages of development and may not exactly reflect its current state. [Consult that project](https://github.com/php-tuf/composer-stager) for the most current integration details.
+This repository is for illustration only. **It is unsupported.** There are no plans to release it as an official, supported package unless the community indicates adequate demand. Furthermore, it is based [on a version of Composer Stager](https://github.com/php-tuf/composer-stager/tree/v0.3.0) from the very early stages of development and may not exactly reflect its current state. [Consult that project](https://github.com/php-tuf/composer-stager) for the most current integration details.
 
 ## Console command
 

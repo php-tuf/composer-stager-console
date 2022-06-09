@@ -3,13 +3,13 @@
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
 use PhpTuf\ComposerStager\Domain\BeginnerInterface;
-use PhpTuf\ComposerStager\Domain\Output\ProcessOutputCallbackInterface;
 use PhpTuf\ComposerStager\Exception\DirectoryAlreadyExistsException;
 use PhpTuf\ComposerStager\Exception\DirectoryNotFoundException;
 use PhpTuf\ComposerStager\Exception\ProcessFailedException;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand;
+use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
 use Symfony\Component\Console\Command\Command;
@@ -19,9 +19,9 @@ use Symfony\Component\Console\Command\Command;
  *
  * @covers ::__construct
  *
- * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand
+ * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
  *
  * @property \PhpTuf\ComposerStager\Domain\BeginnerInterface|\Prophecy\Prophecy\ObjectProphecy beginner
  */
@@ -65,7 +65,7 @@ final class BeginCommandUnitTest extends CommandTestCase
         $activeDir = 'one/two';
         $stagingDir = 'three/four';
         $this->beginner
-            ->begin($activeDir, $stagingDir, null, Argument::type(ProcessOutputCallbackInterface::class))
+            ->begin($activeDir, $stagingDir, [], Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();
 
         $this->executeCommand([

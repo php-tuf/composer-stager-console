@@ -18,7 +18,7 @@ final class FrontScriptFunctionalTest extends TestCase
         $process = self::runFrontScript(['--version']);
         $output = $process->getOutput();
 
-        self::assertStringStartsWith('Composer Stager v', $output);
+        self::assertSame('Composer Stager' . PHP_EOL, $output);
     }
 
     public function testCommandList(): void

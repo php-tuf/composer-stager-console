@@ -6,9 +6,17 @@ services:
         autowire: true
         public: false
 
-    PhpTuf\ComposerStager\:
+    PhpTuf\ComposerStagerConsole\:
         resource: '../src/*'
         public: true
+        exclude:
+            - '../src/Console/Output/*'
+
+    PhpTuf\ComposerStager\:
+        resource: '../vendor/php-tuf/composer-stager/src/*'
+        public: true
+        exclude:
+            - '../vendor/php-tuf/composer-stager/src/Exception'
 
     PhpTuf\ComposerStager\Domain\BeginnerInterface:
         class: PhpTuf\ComposerStager\Domain\Beginner
@@ -22,7 +30,7 @@ services:
         arguments:
             $phpFileSyncer: '@PhpTuf\ComposerStager\Infrastructure\FileSyncer\PhpFileSyncer'
             $rsyncFileSyncer: '@PhpTuf\ComposerStager\Infrastructure\FileSyncer\RsyncFileSyncer'
-    PhpTuf\ComposerStager\Infrastructure\FileSyncer\FileSyncerInterface:
+    PhpTuf\ComposerStager\Domain\FileSyncer\FileSyncerInterface:
         factory: [ '@PhpTuf\ComposerStager\Infrastructure\FileSyncer\FileSyncerFactory', 'create' ]
     PhpTuf\ComposerStager\Infrastructure\FileSyncer\PhpFileSyncer: ~
     PhpTuf\ComposerStager\Infrastructure\FileSyncer\PhpFileSyncerInterface:
