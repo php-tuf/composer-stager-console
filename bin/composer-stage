@@ -1,5 +1,5 @@
 #!/usr/bin/env php
-<?php
+<?php declare(strict_types=1);
 
 /**
  * @file
@@ -30,15 +30,18 @@ $loader->load(__DIR__ . '/../config/services.yml');
 
 $container->compile();
 
-/** @var Application $application */
 $application = $container->get(Application::class);
+assert($application instanceof Application);
 
 // Register commands.
 foreach ($container->getServiceIds() as $serviceId) {
     $service = $container->get($serviceId);
-    if ($service instanceof Command) {
-        $application->add($service);
+
+    if (!($service instanceof Command)) {
+        continue;
     }
+
+    $application->add($service);
 }
 
 return $application->run();

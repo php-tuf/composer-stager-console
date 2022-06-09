@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 
-/**
- * @internal
- */
+/** @internal */
 abstract class AbstractCommand extends Command
 {
     // sysexits-compatible exit codes.

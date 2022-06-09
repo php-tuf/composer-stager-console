@@ -1,28 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStagerConsole\Console\Application;
-use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
-use PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand;
 use PhpTuf\ComposerStager\Domain\CommitterInterface;
 use PhpTuf\ComposerStager\Domain\Output\ProcessOutputCallbackInterface;
 use PhpTuf\ComposerStager\Exception\DirectoryNotFoundException;
 use PhpTuf\ComposerStager\Exception\ProcessFailedException;
+use PhpTuf\ComposerStagerConsole\Console\Application;
+use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
+use PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
 use Symfony\Component\Console\Command\Command;
 
 /**
  * @coversDefaultClass \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand
+ *
  * @covers \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand::__construct
+ *
+ * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand
- * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback
  *
  * @property \PhpTuf\ComposerStager\Domain\CommitterInterface|\Prophecy\Prophecy\ObjectProphecy committer
  */
-class CommitCommandUnitTest extends CommandTestCase
+final class CommitCommandUnitTest extends CommandTestCase
 {
     protected function setUp(): void
     {
@@ -32,18 +34,18 @@ class CommitCommandUnitTest extends CommandTestCase
         $this->committer
             ->directoryExists(Argument::cetera())
             ->willReturn(true);
+
         parent::setUp();
     }
 
     protected function createSut(): Command
     {
         $committer = $this->committer->reveal();
+
         return new CommitCommand($committer);
     }
 
-    /**
-     * @covers ::configure
-     */
+    /** @covers ::configure */
     public function testBasicConfiguration(): void
     {
         $sut = $this->createSut();
@@ -95,9 +97,7 @@ class CommitCommandUnitTest extends CommandTestCase
         ];
     }
 
-    /**
-     * @covers ::execute
-     */
+    /** @covers ::execute */
     public function testStagingDirectoryNotFound(): void
     {
         $this->committer

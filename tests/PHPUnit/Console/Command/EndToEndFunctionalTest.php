@@ -1,14 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\TestCase;
 use Symfony\Component\Process\Process;
 
-/**
- * @coversNothing
- */
-class EndToEndFunctionalTest extends TestCase
+/** @coversNothing */
+final class EndToEndFunctionalTest extends TestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -59,9 +57,7 @@ class EndToEndFunctionalTest extends TestCase
         $process->mustRun();
     }
 
-    /**
-     * @depends testBegin
-     */
+    /** @depends testBegin */
     public function testStage(): void
     {
         // A "composer config" command is a good one to stage to avoid "testing
@@ -88,9 +84,7 @@ class EndToEndFunctionalTest extends TestCase
         self::assertActiveAndStagingDirectoriesNotSame();
     }
 
-    /**
-     * @depends testStage
-     */
+    /** @depends testStage */
     public function testCommit(): void
     {
         $process = self::runFrontScript(['commit', '--no-interaction']);
@@ -100,9 +94,7 @@ class EndToEndFunctionalTest extends TestCase
         self::assertActiveAndStagingDirectoriesSame();
     }
 
-    /**
-     * @depends testCommit
-     */
+    /** @depends testCommit */
     public function testClean(): void
     {
         $process = self::runFrontScript(['clean', '--no-interaction']);

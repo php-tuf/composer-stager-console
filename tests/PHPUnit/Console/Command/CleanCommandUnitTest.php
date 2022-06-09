@@ -1,29 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStagerConsole\Console\Application;
-use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
-use PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand;
 use PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStager\Domain\CleanerInterface;
 use PhpTuf\ComposerStager\Exception\DirectoryNotWritableException;
 use PhpTuf\ComposerStager\Exception\IOException;
+use PhpTuf\ComposerStagerConsole\Console\Application;
+use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
+use PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
 use Symfony\Component\Console\Command\Command;
 
 /**
  * @coversDefaultClass \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand
+ *
  * @covers \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::__construct
+ *
+ * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback::__construct
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::configure
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::confirm
- * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback::__construct
  *
  * @property \PhpTuf\ComposerStager\Domain\Cleaner|\Prophecy\Prophecy\ObjectProphecy cleaner
  */
-class CleanCommandUnitTest extends CommandTestCase
+final class CleanCommandUnitTest extends CommandTestCase
 {
     protected function setUp(): void
     {
@@ -33,18 +35,18 @@ class CleanCommandUnitTest extends CommandTestCase
         $this->cleaner
             ->directoryExists(Argument::cetera())
             ->willReturn(true);
+
         parent::setUp();
     }
 
     protected function createSut(): Command
     {
         $cleaner = $this->cleaner->reveal();
+
         return new CleanCommand($cleaner);
     }
 
-    /**
-     * @covers ::configure
-     */
+    /** @covers ::configure */
     public function testBasicConfiguration(): void
     {
         $sut = $this->createSut();
@@ -68,11 +70,11 @@ class CleanCommandUnitTest extends CommandTestCase
     {
 
         $this->cleaner
-            ->clean(static::STAGING_DIR, Argument::type(ProcessOutputCallback::class))
+            ->clean(self::STAGING_DIR, Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();
 
         $this->executeCommand([
-            sprintf('--%s', Application::STAGING_DIR_OPTION) => static::STAGING_DIR,
+            sprintf('--%s', Application::STAGING_DIR_OPTION) => self::STAGING_DIR,
             '--no-interaction' => true,
         ]);
 
@@ -80,9 +82,7 @@ class CleanCommandUnitTest extends CommandTestCase
         self::assertSame(AbstractCommand::SUCCESS, $this->getStatusCode(), 'Returned correct status code.');
     }
 
-    /**
-     * @covers ::execute
-     */
+    /** @covers ::execute */
     public function testStagingDirectoryNotFound(): void
     {
         $this->cleaner
@@ -153,7 +153,7 @@ class CleanCommandUnitTest extends CommandTestCase
     {
         return [
             ['exception' => new IOException('Lorem'), 'message' => 'Lorem'],
-            ['exception' => new DirectoryNotWritableException(static::STAGING_DIR, 'Ipsum'), 'message' => 'Ipsum'],
+            ['exception' => new DirectoryNotWritableException(self::STAGING_DIR, 'Ipsum'), 'message' => 'Ipsum'],
         ];
     }
 }

@@ -1,45 +1,47 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStagerConsole\Console\Application;
-use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
-use PhpTuf\ComposerStagerConsole\Console\Command\StageCommand;
 use PhpTuf\ComposerStager\Domain\StagerInterface;
 use PhpTuf\ComposerStager\Exception\DirectoryNotFoundException;
 use PhpTuf\ComposerStager\Exception\DirectoryNotWritableException;
 use PhpTuf\ComposerStager\Exception\InvalidArgumentException;
 use PhpTuf\ComposerStager\Exception\ProcessFailedException;
+use PhpTuf\ComposerStagerConsole\Console\Application;
+use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
+use PhpTuf\ComposerStagerConsole\Console\Command\StageCommand;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
 use Symfony\Component\Console\Command\Command;
 
 /**
  * @coversDefaultClass \PhpTuf\ComposerStagerConsole\Console\Command\StageCommand
+ *
  * @covers \PhpTuf\ComposerStagerConsole\Console\Command\StageCommand::__construct
+ *
+ * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\StageCommand
- * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback
  *
  * @property \PhpTuf\ComposerStager\Domain\Stager|\Prophecy\Prophecy\ObjectProphecy stager
  */
-class StageCommandUnitTest extends CommandTestCase
+final class StageCommandUnitTest extends CommandTestCase
 {
     protected function setUp(): void
     {
         $this->stager = $this->prophesize(StagerInterface::class);
+
         parent::setUp();
     }
 
     protected function createSut(): Command
     {
         $stager = $this->stager->reveal();
+
         return new StageCommand($stager);
     }
 
-    /**
-     * @covers ::configure
-     */
+    /** @covers ::configure */
     public function testBasicConfiguration(): void
     {
         $command = $this->createSut();
@@ -110,7 +112,7 @@ class StageCommandUnitTest extends CommandTestCase
             ->stage(Argument::cetera())
             ->willThrow($exception);
 
-        $this->executeCommand(['composer-command' => [static::INERT_COMMAND]]);
+        $this->executeCommand(['composer-command' => [self::INERT_COMMAND]]);
 
         self::assertSame($message . PHP_EOL, $this->getDisplay(), 'Displayed correct output.');
         self::assertSame(AbstractCommand::FAILURE, $this->getStatusCode(), 'Returned correct status code.');
@@ -119,8 +121,8 @@ class StageCommandUnitTest extends CommandTestCase
     public function providerCommandFailure(): array
     {
         return [
-            ['exception' => new DirectoryNotFoundException(static::STAGING_DIR, 'Lorem'), 'message' => 'Lorem'],
-            ['exception' => new DirectoryNotWritableException(static::STAGING_DIR, 'Ipsum'), 'message' => 'Ipsum'],
+            ['exception' => new DirectoryNotFoundException(self::STAGING_DIR, 'Lorem'), 'message' => 'Lorem'],
+            ['exception' => new DirectoryNotWritableException(self::STAGING_DIR, 'Ipsum'), 'message' => 'Ipsum'],
             ['exception' => new InvalidArgumentException('Dolor'), 'message' => 'Dolor'],
             ['exception' => new ProcessFailedException('Sit'), 'message' => 'Sit'],
         ];

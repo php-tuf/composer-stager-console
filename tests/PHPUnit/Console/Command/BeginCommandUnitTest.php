@@ -1,47 +1,49 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStagerConsole\Console\Application;
-use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
-use PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand;
 use PhpTuf\ComposerStager\Domain\BeginnerInterface;
 use PhpTuf\ComposerStager\Domain\Output\ProcessOutputCallbackInterface;
 use PhpTuf\ComposerStager\Exception\DirectoryAlreadyExistsException;
 use PhpTuf\ComposerStager\Exception\DirectoryNotFoundException;
 use PhpTuf\ComposerStager\Exception\ProcessFailedException;
+use PhpTuf\ComposerStagerConsole\Console\Application;
+use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
+use PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
 use Symfony\Component\Console\Command\Command;
 
 /**
  * @coversDefaultClass \PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand
+ *
  * @covers ::__construct
+ *
+ * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand
- * @uses \PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback
  *
  * @property \PhpTuf\ComposerStager\Domain\BeginnerInterface|\Prophecy\Prophecy\ObjectProphecy beginner
  */
-class BeginCommandUnitTest extends CommandTestCase
+final class BeginCommandUnitTest extends CommandTestCase
 {
     protected function setUp(): void
     {
         $this->beginner = $this->prophesize(BeginnerInterface::class);
         $this->beginner
             ->begin(Argument::cetera());
+
         parent::setUp();
     }
 
     protected function createSut(): Command
     {
         $beginner = $this->beginner->reveal();
+
         return new BeginCommand($beginner);
     }
 
-    /**
-     * @covers ::configure
-     */
+    /** @covers ::configure */
     public function testBasicConfiguration(): void
     {
         $sut = $this->createSut();
@@ -57,9 +59,7 @@ class BeginCommandUnitTest extends CommandTestCase
         self::assertSame([], array_keys($options), 'Set correct options.');
     }
 
-    /**
-     * @covers ::execute
-     */
+    /** @covers ::execute */
     public function testBasicExecution(): void
     {
         $activeDir = 'one/two';
@@ -79,6 +79,7 @@ class BeginCommandUnitTest extends CommandTestCase
 
     /**
      * @covers ::execute
+     *
      * @uses \PhpTuf\ComposerStager\Exception\DirectoryAlreadyExistsException
      * @uses \PhpTuf\ComposerStager\Exception\PathException
      */

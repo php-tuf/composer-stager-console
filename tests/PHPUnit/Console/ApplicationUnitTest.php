@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console;
 
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\TestCase;
+use Symfony\Component\Console\Application as DefaultApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,11 +14,13 @@ use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
  * @coversDefaultClass \PhpTuf\ComposerStagerConsole\Console\Application
+ *
  * @covers \PhpTuf\ComposerStagerConsole\Console\Application::__construct
  * @covers \PhpTuf\ComposerStagerConsole\Console\Application::getDefaultInputDefinition
+ *
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  */
-class ApplicationUnitTest extends TestCase
+final class ApplicationUnitTest extends TestCase
 {
     private const TEST_COMMAND = ['command' => 'test'];
 
@@ -26,10 +29,8 @@ class ApplicationUnitTest extends TestCase
         $createdCommand = new class() extends Command {
             protected static $defaultName = 'test';
 
-            protected function execute(
-                InputInterface $input,
-                OutputInterface $output
-            ): int {
+            protected function execute(InputInterface $input, OutputInterface $output): int
+            {
                 return AbstractCommand::SUCCESS;
             }
         };
@@ -37,15 +38,14 @@ class ApplicationUnitTest extends TestCase
         $application = new Application();
         $application->setAutoExit(false);
         $application->add($createdCommand);
+
         return $application;
     }
 
-    /**
-     * @uses \PhpTuf\ComposerStagerConsole\Console\Application::getDefaultInputDefinition
-     */
+    /** @uses \PhpTuf\ComposerStagerConsole\Console\Application::getDefaultInputDefinition */
     public function testDefaultOptions(): void
     {
-        $baseOptions = (new \Symfony\Component\Console\Application())
+        $baseOptions = (new DefaultApplication())
             ->getDefinition()
             ->getOptionDefaults();
         $sutOptions = $this->createSut()
@@ -65,12 +65,8 @@ class ApplicationUnitTest extends TestCase
      *
      * @dataProvider providerGlobalOptionDefinitions
      */
-    public function testGlobalOptionDefinitions(
-        $name,
-        $descriptionContains,
-        $shortcut,
-        $default
-    ): void {
+    public function testGlobalOptionDefinitions($name, $descriptionContains, $shortcut, $default): void
+    {
         $application = $this->createSut();
         $input = $application->getDefinition();
         $option = $input->getOption($name);
@@ -99,15 +95,13 @@ class ApplicationUnitTest extends TestCase
         ];
     }
 
-    /**
-     * @covers ::configureIO
-     */
+    /** @covers ::configureIO */
     public function testGlobalOutputStyleOverrides(): void
     {
         $application = $this->createSut();
         $applicationTester = new ApplicationTester($application);
 
-        $applicationTester->run(static::TEST_COMMAND);
+        $applicationTester->run(self::TEST_COMMAND);
 
         $expectedStyle = new OutputFormatterStyle('red');
         $actualStyle = $applicationTester->getOutput()

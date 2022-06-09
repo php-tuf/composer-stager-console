@@ -1,30 +1,28 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Console\Command;
 
-use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStager\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStager\Domain\CleanerInterface;
 use PhpTuf\ComposerStager\Exception\ExceptionInterface;
+use PhpTuf\ComposerStagerConsole\Console\Application;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-/**
- * @internal
- */
+/** @internal */
 final class CleanCommand extends AbstractCommand
 {
     private const NAME = 'clean';
 
-    /**
-     * @var \PhpTuf\ComposerStager\Domain\CleanerInterface
-     */
+    /** @var \PhpTuf\ComposerStager\Domain\CleanerInterface */
     private $cleaner;
 
     public function __construct(CleanerInterface $cleaner)
     {
         parent::__construct(self::NAME);
+
         $this->cleaner = $cleaner;
     }
 
@@ -38,13 +36,14 @@ final class CleanCommand extends AbstractCommand
      * @throws \Symfony\Component\Console\Exception\LogicException
      * @throws \Symfony\Component\Console\Exception\RuntimeException
      */
-    public function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var string $stagingDir */
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
+        assert(is_string($stagingDir));
 
         if (!$this->cleaner->directoryExists($stagingDir)) {
             $output->writeln(sprintf('<error>The staging directory does not exist at "%s"</error>', $stagingDir));
+
             return self::FAILURE;
         }
 
@@ -59,7 +58,7 @@ final class CleanCommand extends AbstractCommand
         try {
             $this->cleaner->clean(
                 $stagingDir,
-                new ProcessOutputCallback($input, $output)
+                new ProcessOutputCallback($input, $output),
             );
 
             return self::SUCCESS;
@@ -67,6 +66,7 @@ final class CleanCommand extends AbstractCommand
             // Error-handling specifics may differ for your application. This
             // example outputs errors to the terminal.
             $output->writeln("<error>{$e->getMessage()}</error>");
+
             return self::FAILURE;
         }
     }
@@ -76,17 +76,21 @@ final class CleanCommand extends AbstractCommand
      * @throws \Symfony\Component\Console\Exception\LogicException
      * @throws \Symfony\Component\Console\Exception\RuntimeException
      */
-    public function confirm(InputInterface $input, OutputInterface $output): bool
+    private function confirm(InputInterface $input, OutputInterface $output): bool
     {
-        /** @var bool $noInteraction */
         $noInteraction = $input->getOption('no-interaction');
+        assert(is_bool($noInteraction));
+
         if ($noInteraction) {
             return true;
         }
 
-        /** @var \Symfony\Component\Console\Helper\QuestionHelper $helper */
         $helper = $this->getHelper('question');
-        $question = new ConfirmationQuestion('You are about to permanently remove the staging directory. This action cannot be undone. Continue? [Y/n] ');
+        assert($helper instanceof QuestionHelper);
+        $question = new ConfirmationQuestion(
+            'You are about to permanently remove the staging directory. This action cannot be undone. Continue? [Y/n] ',
+        );
+
         return (bool) $helper->ask($input, $output, $question);
     }
 }

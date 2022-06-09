@@ -1,23 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Console;
 
+use Symfony\Component\Console\Application as DefaultApplication;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class Application extends \Symfony\Component\Console\Application
+final class Application extends DefaultApplication
 {
-    private const NAME = 'Composer Stager';
-    private const VERSION = 'v0.2.3-dev';
-
     public const ACTIVE_DIR_OPTION = 'active-dir';
     public const STAGING_DIR_OPTION = 'staging-dir';
 
     public const ACTIVE_DIR_DEFAULT = '.';
     public const STAGING_DIR_DEFAULT = '.composer_staging';
+
+    private const NAME = 'Composer Stager';
+    private const VERSION = 'v0.2.3-dev';
 
     public function __construct()
     {
@@ -38,8 +39,8 @@ final class Application extends \Symfony\Component\Console\Application
                 'd',
                 InputOption::VALUE_REQUIRED,
                 'Use the given directory as active directory',
-                self::ACTIVE_DIR_DEFAULT
-            )
+                self::ACTIVE_DIR_DEFAULT,
+            ),
         );
 
         $inputDefinition->addOption(
@@ -48,8 +49,8 @@ final class Application extends \Symfony\Component\Console\Application
                 's',
                 InputOption::VALUE_REQUIRED,
                 'Use the given directory as staging directory',
-                self::STAGING_DIR_DEFAULT
-            )
+                self::STAGING_DIR_DEFAULT,
+            ),
         );
 
         return $inputDefinition;
@@ -60,7 +61,7 @@ final class Application extends \Symfony\Component\Console\Application
         $output->getFormatter()->setStyle(
             'error',
             // Red foreground, no background.
-            new OutputFormatterStyle('red')
+            new OutputFormatterStyle('red'),
         );
     }
 }

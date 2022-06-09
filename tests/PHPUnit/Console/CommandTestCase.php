@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console;
 
@@ -30,13 +30,11 @@ abstract class CommandTestCase extends TestCase
      * Executes a given command with the command tester.
      *
      * @param array $args The command arguments.
-     * @param string[] $inputs An array of strings representing each input passed
-     *   to the command input stream.
+     * @param array<string> $inputs An array of strings representing each input
+     *   passed to the command input stream.
      */
-    protected function executeCommand(
-        array $args = [],
-        array $inputs = []
-    ): void {
+    protected function executeCommand(array $args = [], array $inputs = []): void
+    {
         $tester = $this->getCommandTester();
         $tester->setInputs($inputs);
         $commandName = $this->createSut()::getDefaultName();
@@ -62,6 +60,7 @@ abstract class CommandTestCase extends TestCase
         $foundCommand = $application->find($createdCommand->getName());
 
         $this->commandTester = new CommandTester($foundCommand);
+
         return $this->commandTester;
     }
 
