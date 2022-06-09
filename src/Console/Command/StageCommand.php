@@ -37,12 +37,11 @@ final class StageCommand extends AbstractCommand
             ->setDescription('Executes a Composer command in the staging directory')
             ->addArgument(
                 'composer-command',
-                // The argument uses array mode so that it's automatically
-                // parsed and escaped by the Console component. This approach,
-                // though safer and easier, requires the command string to be
-                // preceded by a double-hyphen (" -- ") or ALL options will
-                // always be applied to the "stage" and never staged, regardless
-                // of placement.
+                // This argument uses array mode so that it's automatically parsed
+                // and escaped by the Console component. This approach, though
+                // safer and easier, requires the command string to be preceded
+                // by a double-hyphen (" -- "). If it's not, the Composer command
+                // parts will be misinterpreted as options to the console command.
                 InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                 'The Composer command to stage, without "composer". This MUST be preceded by a double-hyphen (" -- ") to prevent confusion of command options. See "Usage"'
             )
@@ -71,8 +70,8 @@ final class StageCommand extends AbstractCommand
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
 
         // ---------------------------------------------------------------------
-        // (!) Here is the meat of the example. Invoke the Composer Stager API;
-        //     be sure to catch the appropriate exceptions.
+        // (!) Here is the substance of the example. Invoke the Composer Stager
+        //     API; be sure to catch the appropriate exceptions.
         // ---------------------------------------------------------------------
         try {
             $this->stager->stage(
@@ -83,8 +82,8 @@ final class StageCommand extends AbstractCommand
 
             return self::SUCCESS;
         } catch (ExceptionInterface $e) {
-            // Error-handling details your application. This example outputs
-            // errors to the terminal.
+            // Error-handling specifics may differ for your application. This
+            // example outputs errors to the terminal.
             $output->writeln("<error>{$e->getMessage()}</error>");
             return self::FAILURE;
         }

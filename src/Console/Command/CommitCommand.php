@@ -55,8 +55,8 @@ final class CommitCommand extends AbstractCommand
         }
 
         // ---------------------------------------------------------------------
-        // (!) Here is the meat of the example. Invoke the Composer Stager API;
-        //     be sure to catch the appropriate exceptions.
+        // (!) Here is the substance of the example. Invoke the Composer Stager
+        //     API; be sure to catch the appropriate exceptions.
         // ---------------------------------------------------------------------
         try {
             $this->committer->commit(
@@ -68,8 +68,8 @@ final class CommitCommand extends AbstractCommand
 
             return self::SUCCESS;
         } catch (ExceptionInterface $e) {
-            // Error-handling details your application. This example outputs
-            // errors to the terminal.
+            // Error-handling specifics may differ for your application. This
+            // example outputs errors to the terminal.
             $output->writeln("<error>{$e->getMessage()}</error>");
             return self::FAILURE;
         }

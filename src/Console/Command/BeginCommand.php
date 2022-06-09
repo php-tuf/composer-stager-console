@@ -44,8 +44,8 @@ final class BeginCommand extends AbstractCommand
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
 
         // ---------------------------------------------------------------------
-        // (!) Here is the meat of the example. Invoke the Composer Stager API;
-        //     be sure to catch the appropriate exceptions.
+        // (!) Here is the substance of the example. Invoke the Composer Stager
+        //     API; be sure to catch the appropriate exceptions.
         // ---------------------------------------------------------------------
         try {
             $this->beginner->begin(
@@ -57,8 +57,8 @@ final class BeginCommand extends AbstractCommand
 
             return self::SUCCESS;
         } catch (DirectoryAlreadyExistsException $e) {
-            // Error-handling details your application. This example outputs
-            // errors to the terminal.
+            // Error-handling specifics may differ for your application. This
+            // example outputs errors to the terminal.
             $output->writeln("<error>{$e->getMessage()}</error>");
             $output->writeln('Hint: Use the "clean" command to remove the staging directory');
             return self::FAILURE;
