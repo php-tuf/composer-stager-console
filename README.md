@@ -1,6 +1,6 @@
 # Example Composer Stager Console Command
 
- This repository provides an example implementation of [Composer Stager](https://github.com/php-tuf/composer-stager) as a console command for use on the command-line,e.g., via a terminal or a cron job. It is provides for illustration purposes only; **it is unsupported**.
+ This repository provides a reference implementation of [Composer Stager](https://github.com/php-tuf/composer-stager) as a console command for use via a terminal or a cron job. It is provides for illustration purposes only; **it is unsupported**.
 
 * [Warning!](#warning)
 * [Console command](#console-command)
@@ -8,7 +8,7 @@
 
 ## Warning!
 
-This repository is for illustration only. **It is unsupported.** There are no plans to release it as an official, supported package unless the community indicates adequate demand. Furthermore, it is based on an alpha version of [Composer Stager](https://github.com/php-tuf/composer-stager/tree/v0.5.0) and may not exactly reflect its current state. [Consult that project](https://github.com/php-tuf/composer-stager) for the most current integration details.
+This repository is for illustration only. **It is unsupported.** There are no plans to release it as an official, supported package unless the community indicates adequate demand. Furthermore, it is based on a pre-release version of [Composer Stager](https://github.com/php-tuf/composer-stager/tree) and may not exactly reflect its current state. [Consult that project](https://github.com/php-tuf/composer-stager) for the most current integration details.
 
 ## Console command
 
