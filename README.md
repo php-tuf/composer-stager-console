@@ -8,7 +8,7 @@
 
 ## Warning!
 
-This repository is for illustration only. **It is unsupported.** There are no plans to release it as an official, supported package unless the community indicates adequate demand. Furthermore, it is based [on a version of Composer Stager](https://github.com/php-tuf/composer-stager/tree/v0.5.0) from the very early stages of development and may not exactly reflect its current state. [Consult that project](https://github.com/php-tuf/composer-stager) for the most current integration details.
+This repository is for illustration only. **It is unsupported.** There are no plans to release it as an official, supported package unless the community indicates adequate demand. Furthermore, it is based on an alpha version of [Composer Stager](https://github.com/php-tuf/composer-stager/tree/v0.5.0) and may not exactly reflect its current state. [Consult that project](https://github.com/php-tuf/composer-stager) for the most current integration details.
 
 ## Console command
 
@@ -30,16 +30,16 @@ $ php composer-stager-console/bin/composer-stage
 
 ```shell
 # Copy the codebase to the staging directory.
-$ composer-stager begin
+$ bin/composer-stage begin
 
 # Run a Composer command on it.
-$ composer-stager stage -- require example/package --update-with-all-dependencies
+$ bin/composer-stage stage -- require example/package --update-with-all-dependencies
 
 # Sync the changes back to the active directory.
-$ composer-stager commit --no-interaction
+$ bin/composer-stage commit --no-interaction
 
 # Remove the staging directory.
-$ composer-stager clean --no-interaction
+$ bin/composer-stage clean --no-interaction
 ```
 
 ## As an example of implementation
