@@ -5,7 +5,6 @@ namespace PhpTuf\ComposerStagerConsole\Console\Command;
 use PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface;
 use PhpTuf\ComposerStager\Domain\Exception\ExceptionInterface;
 use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
-use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,15 +19,11 @@ final class CommitCommand extends AbstractCommand
     /** @var \PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface */
     private $committer;
 
-    /** @var \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface */
-    private $pathFactory;
-
     public function __construct(CommitterInterface $committer, PathFactoryInterface $pathFactory)
     {
-        parent::__construct(self::NAME);
+        parent::__construct(self::NAME, $pathFactory);
 
         $this->committer = $committer;
-        $this->pathFactory = $pathFactory;
     }
 
     protected function configure(): void
@@ -45,14 +40,6 @@ final class CommitCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $activeDir = $input->getOption(Application::ACTIVE_DIR_OPTION);
-        assert(is_string($activeDir));
-        $activeDir = $this->pathFactory::create($activeDir);
-
-        $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
-        assert(is_string($stagingDir));
-        $stagingDir = $this->pathFactory::create($stagingDir);
-
         if (!$this->confirm($input, $output)) {
             return self::FAILURE;
         }
@@ -63,8 +50,8 @@ final class CommitCommand extends AbstractCommand
         // ---------------------------------------------------------------------
         try {
             $this->committer->commit(
-                $stagingDir,
-                $activeDir,
+                $this->getStagingDir(),
+                $this->getActiveDir(),
                 null,
                 new ProcessOutputCallback($input, $output),
             );

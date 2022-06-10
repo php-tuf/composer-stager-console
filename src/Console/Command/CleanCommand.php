@@ -5,7 +5,6 @@ namespace PhpTuf\ComposerStagerConsole\Console\Command;
 use PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface;
 use PhpTuf\ComposerStager\Domain\Exception\ExceptionInterface;
 use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
-use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,15 +19,11 @@ final class CleanCommand extends AbstractCommand
     /** @var \PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface */
     private $cleaner;
 
-    /** @var \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface */
-    private $pathFactory;
-
     public function __construct(CleanerInterface $cleaner, PathFactoryInterface $pathFactory)
     {
-        parent::__construct(self::NAME);
+        parent::__construct(self::NAME, $pathFactory);
 
         $this->cleaner = $cleaner;
-        $this->pathFactory = $pathFactory;
     }
 
     protected function configure(): void
@@ -43,14 +38,6 @@ final class CleanCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $activeDir = $input->getOption(Application::ACTIVE_DIR_OPTION);
-        assert(is_string($activeDir));
-        $activeDir = $this->pathFactory::create($activeDir);
-
-        $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
-        assert(is_string($stagingDir));
-        $stagingDir = $this->pathFactory::create($stagingDir);
-
         if (!$this->confirm($input, $output)) {
             return self::FAILURE;
         }
@@ -61,8 +48,8 @@ final class CleanCommand extends AbstractCommand
         // ---------------------------------------------------------------------
         try {
             $this->cleaner->clean(
-                $activeDir,
-                $stagingDir,
+                $this->getActiveDir(),
+                $this->getStagingDir(),
                 new ProcessOutputCallback($input, $output),
             );
 
