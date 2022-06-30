@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e4fb1d9e3591d9cbff19b712c73de15",
+    "content-hash": "cfd850a2b5c01c9d34bf2fa14d854da6",
     "packages": [
         {
             "name": "php-tuf/composer-stager",
-            "version": "v0.5.0",
+            "version": "v1.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-tuf/composer-stager.git",
-                "reference": "2b668da5537d5bbb561c52464f9c6fd438c50c72"
+                "reference": "73d6fb38bbe1864ec201a3abead263a2d46beec9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-tuf/composer-stager/zipball/2b668da5537d5bbb561c52464f9c6fd438c50c72",
-                "reference": "2b668da5537d5bbb561c52464f9c6fd438c50c72",
+                "url": "https://api.github.com/repos/php-tuf/composer-stager/zipball/73d6fb38bbe1864ec201a3abead263a2d46beec9",
+                "reference": "73d6fb38bbe1864ec201a3abead263a2d46beec9",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "issues": "https://github.com/php-tuf/composer-stager/issues",
                 "source": "https://github.com/php-tuf/composer-stager"
             },
-            "time": "2022-05-10T14:03:34+00:00"
+            "time": "2022-06-29T18:03:52+00:00"
         },
         {
             "name": "psr/container",
