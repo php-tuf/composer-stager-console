@@ -19,6 +19,7 @@ use Symfony\Component\Console\Command\Command;
  * @coversDefaultClass \PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand
  *
  * @covers ::__construct
+ * @covers \PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand
  *
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand

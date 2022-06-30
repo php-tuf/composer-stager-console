@@ -17,6 +17,7 @@ use Symfony\Component\Console\Command\Command;
 /**
  * @coversDefaultClass \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand
  *
+ * @covers \PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand
  * @covers \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand::__construct
  *
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
