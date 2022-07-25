@@ -8,47 +8,50 @@
     "packages": [
         {
             "name": "php-tuf/composer-stager",
-            "version": "v1.0.0-beta2",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-tuf/composer-stager.git",
-                "reference": "73d6fb38bbe1864ec201a3abead263a2d46beec9"
+                "reference": "1c593316ec16669c3f5d4dec55676a5e6a4a1ad6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-tuf/composer-stager/zipball/73d6fb38bbe1864ec201a3abead263a2d46beec9",
-                "reference": "73d6fb38bbe1864ec201a3abead263a2d46beec9",
+                "url": "https://api.github.com/repos/php-tuf/composer-stager/zipball/1c593316ec16669c3f5d4dec55676a5e6a4a1ad6",
+                "reference": "1c593316ec16669c3f5d4dec55676a5e6a4a1ad6",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.3 || ^8.0",
-                "symfony/filesystem": "^4.4 || ^5.2",
-                "symfony/process": "^4.4 || ^5.2"
+                "php": "^7.4 || ^8.0",
+                "symfony/filesystem": "^4.4 || ^5.2 || ^6.1",
+                "symfony/process": "^4.4 || ^5.2 || ^6.1"
             },
             "require-dev": {
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
                 "ergebnis/composer-normalize": "^2.20",
                 "ext-json": "*",
-                "jangregor/phpstan-prophecy": "^0.8.1",
-                "pepakriz/phpstan-exception-rules": "^0.11.6",
+                "infection/infection": "^0.26.6",
+                "jangregor/phpstan-prophecy": "^1.0",
+                "pepakriz/phpstan-exception-rules": "^0.12.0",
                 "php-parallel-lint/php-parallel-lint": "^1.3",
                 "phpcompatibility/php-compatibility": "^9.3",
                 "phpmd/phpmd": "^2.10",
                 "phpro/grumphp-shim": "^1.5",
                 "phpspec/prophecy-phpunit": "^2.0",
                 "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^0.12.83",
-                "phpstan/phpstan-deprecation-rules": "^0.12.6",
-                "phpstan/phpstan-strict-rules": "^0.12.9",
-                "phpstan/phpstan-symfony": "^0.12.37",
+                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.3",
+                "phpstan/phpstan-symfony": "^1.2",
                 "phpunit/phpunit": "^9.5",
                 "psalm/phar": "^4.8",
+                "qossmic/deptrac-shim": "^0.23.0",
                 "roave/security-advisories": "dev-latest",
-                "slevomat/coding-standard": "^7.0",
+                "slevomat/coding-standard": "^8.0",
                 "squizlabs/php_codesniffer": "^3.5",
                 "symfony/config": "^5.3",
                 "symfony/dependency-injection": "^5.3",
-                "symfony/yaml": "^5.3"
+                "symfony/yaml": "^5.3",
+                "thecodingmachine/phpstan-strict-rules": "^1.0"
             },
             "suggest": {
                 "roave/security-advisories": "Ensures that your application doesn't have installed dependencies with known security vulnerabilities."
@@ -84,7 +87,7 @@
                 "issues": "https://github.com/php-tuf/composer-stager/issues",
                 "source": "https://github.com/php-tuf/composer-stager"
             },
-            "time": "2022-06-29T18:03:52+00:00"
+            "time": "2022-07-21T17:35:26+00:00"
         },
         {
             "name": "psr/container",
@@ -313,16 +316,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v5.4.9",
+            "version": "v5.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "beecae161577305926ec078c4ed973f2b98880b3"
+                "reference": "88d1c0d38c2e60f757fa11d89cfc885f0b7f5171"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/beecae161577305926ec078c4ed973f2b98880b3",
-                "reference": "beecae161577305926ec078c4ed973f2b98880b3",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/88d1c0d38c2e60f757fa11d89cfc885f0b7f5171",
+                "reference": "88d1c0d38c2e60f757fa11d89cfc885f0b7f5171",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +385,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v5.4.9"
+                "source": "https://github.com/symfony/dependency-injection/tree/v5.4.10"
             },
             "funding": [
                 {
@@ -398,11 +401,11 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-27T06:40:03+00:00"
+            "time": "2022-06-26T13:00:04+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.5.1",
+            "version": "v2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
@@ -449,7 +452,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.1"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.2"
             },
             "funding": [
                 {
@@ -1166,16 +1169,16 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v2.5.1",
+            "version": "v2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "24d9dc654b83e91aa59f9d167b131bc3b5bea24c"
+                "reference": "4b426aac47d6427cc1a1d0f7e2ac724627f5966c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/24d9dc654b83e91aa59f9d167b131bc3b5bea24c",
-                "reference": "24d9dc654b83e91aa59f9d167b131bc3b5bea24c",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/4b426aac47d6427cc1a1d0f7e2ac724627f5966c",
+                "reference": "4b426aac47d6427cc1a1d0f7e2ac724627f5966c",
                 "shasum": ""
             },
             "require": {
@@ -1229,7 +1232,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/v2.5.1"
+                "source": "https://github.com/symfony/service-contracts/tree/v2.5.2"
             },
             "funding": [
                 {
@@ -1245,20 +1248,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-13T20:07:29+00:00"
+            "time": "2022-05-30T19:17:29+00:00"
         },
         {
             "name": "symfony/string",
-            "version": "v5.4.9",
+            "version": "v5.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "985e6a9703ef5ce32ba617c9c7d97873bb7b2a99"
+                "reference": "4432bc7df82a554b3e413a8570ce2fea90e94097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/985e6a9703ef5ce32ba617c9c7d97873bb7b2a99",
-                "reference": "985e6a9703ef5ce32ba617c9c7d97873bb7b2a99",
+                "url": "https://api.github.com/repos/symfony/string/zipball/4432bc7df82a554b3e413a8570ce2fea90e94097",
+                "reference": "4432bc7df82a554b3e413a8570ce2fea90e94097",
                 "shasum": ""
             },
             "require": {
@@ -1315,7 +1318,7 @@
                 "utf8"
             ],
             "support": {
-                "source": "https://github.com/symfony/string/tree/v5.4.9"
+                "source": "https://github.com/symfony/string/tree/v5.4.10"
             },
             "funding": [
                 {
@@ -1331,20 +1334,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-19T10:40:37+00:00"
+            "time": "2022-06-26T15:57:47+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v5.4.3",
+            "version": "v5.4.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "e80f87d2c9495966768310fc531b487ce64237a2"
+                "reference": "04e42926429d9e8b39c174387ab990bf7817f7a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/e80f87d2c9495966768310fc531b487ce64237a2",
-                "reference": "e80f87d2c9495966768310fc531b487ce64237a2",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/04e42926429d9e8b39c174387ab990bf7817f7a2",
+                "reference": "04e42926429d9e8b39c174387ab990bf7817f7a2",
                 "shasum": ""
             },
             "require": {
@@ -1390,7 +1393,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v5.4.3"
+                "source": "https://github.com/symfony/yaml/tree/v5.4.10"
             },
             "funding": [
                 {
@@ -1406,7 +1409,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-26T16:32:32+00:00"
+            "time": "2022-06-20T11:50:59+00:00"
         }
     ],
     "packages-dev": [
@@ -2438,16 +2441,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.20",
+            "version": "9.5.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "12bc8879fb65aef2138b26fc633cb1e3620cffba"
+                "reference": "0e32b76be457de00e83213528f6bb37e2a38fcb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/12bc8879fb65aef2138b26fc633cb1e3620cffba",
-                "reference": "12bc8879fb65aef2138b26fc633cb1e3620cffba",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0e32b76be457de00e83213528f6bb37e2a38fcb1",
+                "reference": "0e32b76be457de00e83213528f6bb37e2a38fcb1",
                 "shasum": ""
             },
             "require": {
@@ -2481,7 +2484,6 @@
                 "sebastian/version": "^3.0.2"
             },
             "require-dev": {
-                "ext-pdo": "*",
                 "phpspec/prophecy-phpunit": "^2.0.1"
             },
             "suggest": {
@@ -2525,7 +2527,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.20"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.21"
             },
             "funding": [
                 {
@@ -2537,7 +2539,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-01T12:37:26+00:00"
+            "time": "2022-06-19T12:14:25+00:00"
         },
         {
             "name": "sebastian/cli-parser",
