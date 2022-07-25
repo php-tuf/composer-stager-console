@@ -1,3 +1,5 @@
+!/.idea/dictionaries/project.xml
+/.idea/dictionaries/*
+/phpunit.xml
 /var/
 /vendor/
-/phpunit.xml
