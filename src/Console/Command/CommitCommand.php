@@ -16,8 +16,7 @@ final class CommitCommand extends AbstractCommand
 {
     private const NAME = 'commit';
 
-    /** @var \PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface */
-    private $committer;
+    private CommitterInterface $committer;
 
     public function __construct(CommitterInterface $committer, PathFactoryInterface $pathFactory)
     {

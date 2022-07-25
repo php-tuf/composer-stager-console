@@ -15,8 +15,7 @@ final class StageCommand extends AbstractCommand
 {
     private const NAME = 'stage';
 
-    /** @var \PhpTuf\ComposerStager\Domain\Core\Stager\StagerInterface */
-    private $stager;
+    private StagerInterface $stager;
 
     public function __construct(PathFactoryInterface $pathFactory, StagerInterface $stager)
     {

@@ -9,11 +9,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 /** @internal */
 final class ProcessOutputCallback implements ProcessOutputCallbackInterface
 {
-    /** @var \Symfony\Component\Console\Output\OutputInterface */
-    private $output;
+    private OutputInterface $output;
 
-    /** @var \Symfony\Component\Console\Input\InputInterface */
-    private $input;
+    private InputInterface $input;
 
     public function __construct(InputInterface $input, OutputInterface $output)
     {

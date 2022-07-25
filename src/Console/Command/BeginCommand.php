@@ -14,8 +14,7 @@ final class BeginCommand extends AbstractCommand
 {
     private const NAME = 'begin';
 
-    /** @var \PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface */
-    private $beginner;
+    private BeginnerInterface $beginner;
 
     public function __construct(BeginnerInterface $beginner, PathFactoryInterface $pathFactory)
     {

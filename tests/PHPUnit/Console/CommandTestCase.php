@@ -11,12 +11,8 @@ abstract class CommandTestCase extends TestCase
 {
     protected const INERT_COMMAND = '--version';
 
-    /**
-     * The command tester.
-     *
-     * @var \Symfony\Component\Console\Tester\CommandTester
-     */
-    private $commandTester;
+    /** The command tester. */
+    private ?CommandTester $commandTester = null;
 
     /**
      * Creates a command object to test.

@@ -27,7 +27,10 @@ final class ApplicationUnitTest extends TestCase
     protected function createSut(): Application
     {
         $createdCommand = new class() extends Command {
-            protected static $defaultName = 'test';
+            public function __construct()
+            {
+                parent::__construct('test');
+            }
 
             protected function execute(InputInterface $input, OutputInterface $output): int
             {

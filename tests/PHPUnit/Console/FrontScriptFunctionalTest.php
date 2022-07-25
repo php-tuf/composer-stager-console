@@ -27,9 +27,7 @@ final class FrontScriptFunctionalTest extends TestCase
         $output = $process->getOutput();
 
         $data = json_decode($output, true, 512, JSON_THROW_ON_ERROR);
-        $commands = array_map(static function ($value) {
-            return $value['name'];
-        }, $data['commands']);
+        $commands = array_map(static fn ($value) => $value['name'], $data['commands']);
 
         self::assertSame([
             'begin',

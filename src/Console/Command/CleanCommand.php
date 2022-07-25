@@ -16,8 +16,7 @@ final class CleanCommand extends AbstractCommand
 {
     private const NAME = 'clean';
 
-    /** @var \PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface */
-    private $cleaner;
+    private CleanerInterface $cleaner;
 
     public function __construct(CleanerInterface $cleaner, PathFactoryInterface $pathFactory)
     {

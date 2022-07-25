@@ -20,14 +20,11 @@ abstract class AbstractCommand extends Command
     public const FAILURE = 1;
     public const INVALID = 2;
 
-    /** @var \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface */
-    protected $pathFactory;
+    protected PathFactoryInterface $pathFactory;
 
-    /** @var \PhpTuf\ComposerStager\Domain\Value\Path\PathInterface */
-    private $activeDir;
+    private PathInterface $activeDir;
 
-    /** @var \PhpTuf\ComposerStager\Domain\Value\Path\PathInterface */
-    private $stagingDir;
+    private PathInterface $stagingDir;
 
     public function __construct(string $name, PathFactoryInterface $pathFactory)
     {
