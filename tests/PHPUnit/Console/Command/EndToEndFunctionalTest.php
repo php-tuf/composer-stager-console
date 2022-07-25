@@ -13,17 +13,6 @@ final class EndToEndFunctionalTest extends TestCase
         self::createTestEnvironment(self::ACTIVE_DIR);
     }
 
-    public static function tearDownAfterClass(): void
-    {
-        // For unknown reasons, any attempt to remove the test environment here
-        // causes the following confounding test error:
-        // > TypeError : chdir() expects parameter 1 to be a valid path, bool given
-        // There appears to be a perverse interdependency between this
-        // class and the FileSyncer classes since deleting the latter causes
-        // test environment removal here to work as expected.
-        // self::removeTestEnvironment();
-    }
-
     protected static function runFrontScript(array $args, string $cwd = __DIR__): Process
     {
         // Override default directory paths to be adjacent rather than nested

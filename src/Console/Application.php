@@ -3,6 +3,8 @@
 namespace PhpTuf\ComposerStagerConsole\Console;
 
 use Symfony\Component\Console\Application as DefaultApplication;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,33 +26,33 @@ final class Application extends DefaultApplication
         parent::__construct(self::NAME);
     }
 
-    /**
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws \Symfony\Component\Console\Exception\LogicException
-     */
+    /** @throws \Symfony\Component\Console\Exception\LogicException */
     protected function getDefaultInputDefinition(): InputDefinition
     {
         $inputDefinition = parent::getDefaultInputDefinition();
 
-        $inputDefinition->addOption(
-            new InputOption(
-                self::ACTIVE_DIR_OPTION,
-                'd',
-                InputOption::VALUE_REQUIRED,
-                'Use the given directory as active directory',
-                self::ACTIVE_DIR_DEFAULT,
-            ),
-        );
-
-        $inputDefinition->addOption(
-            new InputOption(
-                self::STAGING_DIR_OPTION,
-                's',
-                InputOption::VALUE_REQUIRED,
-                'Use the given directory as staging directory',
-                self::STAGING_DIR_DEFAULT,
-            ),
-        );
+        try {
+            $inputDefinition->addOption(
+                new InputOption(
+                    self::ACTIVE_DIR_OPTION,
+                    'd',
+                    InputOption::VALUE_REQUIRED,
+                    'Use the given directory as active directory',
+                    self::ACTIVE_DIR_DEFAULT,
+                ),
+            );
+            $inputDefinition->addOption(
+                new InputOption(
+                    self::STAGING_DIR_OPTION,
+                    's',
+                    InputOption::VALUE_REQUIRED,
+                    'Use the given directory as staging directory',
+                    self::STAGING_DIR_DEFAULT,
+                ),
+            );
+        } catch (InvalidArgumentException $e) {
+            throw new LogicException($e->getMessage(), $e->getCode(), $e);
+        }
 
         return $inputDefinition;
     }

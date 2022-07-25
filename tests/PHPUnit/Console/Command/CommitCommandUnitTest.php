@@ -24,7 +24,7 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
  *
- * @property \PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface|\Prophecy\Prophecy\ObjectProphecy committer
+ * @property \PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface|\Prophecy\Prophecy\ObjectProphecy $committer
  */
 final class CommitCommandUnitTest extends CommandTestCase
 {

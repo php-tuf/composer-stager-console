@@ -25,7 +25,8 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
  *
- * @property \PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface|\Prophecy\Prophecy\ObjectProphecy beginner
+ * @property \PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface|\Prophecy\Prophecy\ObjectProphecy $beginner
+ * @property \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface|\Prophecy\Prophecy\ObjectProphecy $pathFactory
  */
 final class BeginCommandUnitTest extends CommandTestCase
 {

@@ -6,6 +6,9 @@ use PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface;
 use PhpTuf\ComposerStager\Domain\Exception\ExceptionInterface;
 use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\LogicException;
+use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,11 +33,7 @@ final class CleanCommand extends AbstractCommand
         $this->setDescription('Removes the staging directory');
     }
 
-    /**
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws \Symfony\Component\Console\Exception\LogicException
-     * @throws \Symfony\Component\Console\Exception\RuntimeException
-     */
+    /** @throws \Symfony\Component\Console\Exception\LogicException */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->confirm($input, $output)) {
@@ -62,14 +61,15 @@ final class CleanCommand extends AbstractCommand
         }
     }
 
-    /**
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
-     * @throws \Symfony\Component\Console\Exception\LogicException
-     * @throws \Symfony\Component\Console\Exception\RuntimeException
-     */
+    /** @throws \Symfony\Component\Console\Exception\LogicException */
     private function confirm(InputInterface $input, OutputInterface $output): bool
     {
-        $noInteraction = $input->getOption('no-interaction');
+        try {
+            $noInteraction = $input->getOption('no-interaction');
+        } catch (InvalidArgumentException $e) {
+            throw new LogicException($e->getMessage(), $e->getCode(), $e);
+        }
+
         assert(is_bool($noInteraction));
 
         if ($noInteraction) {
@@ -82,6 +82,10 @@ final class CleanCommand extends AbstractCommand
             'You are about to permanently remove the staging directory. This action cannot be undone. Continue? [Y/n] ',
         );
 
-        return (bool) $helper->ask($input, $output, $question);
+        try {
+            return (bool) $helper->ask($input, $output, $question);
+        } catch (RuntimeException $e) {
+            throw new LogicException($e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

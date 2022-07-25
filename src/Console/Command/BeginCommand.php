@@ -28,7 +28,6 @@ final class BeginCommand extends AbstractCommand
         $this->setDescription('Begins the staging process by copying the active directory to the staging directory');
     }
 
-    /** @throws \Symfony\Component\Console\Exception\InvalidArgumentException */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // ---------------------------------------------------------------------

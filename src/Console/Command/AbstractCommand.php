@@ -38,6 +38,7 @@ abstract class AbstractCommand extends Command
         return $this->stagingDir;
     }
 
+    /** @throws \Symfony\Component\Console\Exception\InvalidArgumentException */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $activeDir = $input->getOption(Application::ACTIVE_DIR_OPTION);

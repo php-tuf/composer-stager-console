@@ -23,7 +23,8 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\StageCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
  *
- * @property \PhpTuf\ComposerStager\Domain\Core\Stager\Stager|\Prophecy\Prophecy\ObjectProphecy stager
+ * @property \PhpTuf\ComposerStager\Domain\Core\Stager\StagerInterface|\Prophecy\Prophecy\ObjectProphecy $stager
+ * @property \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface|\Prophecy\Prophecy\ObjectProphecy $pathFactory
  */
 final class StageCommandUnitTest extends CommandTestCase
 {

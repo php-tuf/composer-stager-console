@@ -24,7 +24,7 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::confirm
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback::__construct
  *
- * @property \PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface|\Prophecy\Prophecy\ObjectProphecy cleaner
+ * @property \PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface|\Prophecy\Prophecy\ObjectProphecy $cleaner
  */
 final class CleanCommandUnitTest extends CommandTestCase
 {

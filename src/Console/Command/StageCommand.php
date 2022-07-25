@@ -6,6 +6,8 @@ use PhpTuf\ComposerStager\Domain\Core\Stager\StagerInterface;
 use PhpTuf\ComposerStager\Domain\Exception\ExceptionInterface;
 use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -53,12 +55,16 @@ final class StageCommand extends AbstractCommand
      * @return int
      *   The exit code.
      *
-     * @throws \Symfony\Component\Console\Exception\InvalidArgumentException
+     * @throws \Symfony\Component\Console\Exception\LogicException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        /** @var array<string> $composerCommand */
-        $composerCommand = $input->getArgument('composer-command');
+        try {
+            /** @var array<string> $composerCommand */
+            $composerCommand = $input->getArgument('composer-command');
+        } catch (InvalidArgumentException $e) {
+            throw new LogicException($e->getMessage(), $e->getCode(), $e);
+        }
 
         // ---------------------------------------------------------------------
         // (!) Here is the substance of the example. Invoke the Composer Stager
