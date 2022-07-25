@@ -23,6 +23,7 @@
     "require-dev": {
         "ext-json": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+        "ergebnis/composer-normalize": "^2.20",
         "jangregor/phpstan-prophecy": "^0.8.1",
         "phpcompatibility/php-compatibility": "^9.3",
         "phpspec/prophecy-phpunit": "^2.0",
@@ -50,7 +51,8 @@
     ],
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true
         },
         "optimize-autoloader": true,
         "sort-packages": true
