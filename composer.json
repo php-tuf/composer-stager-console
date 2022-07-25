@@ -27,6 +27,7 @@
         "phpcompatibility/php-compatibility": "^9.3",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
+        "psalm/phar": "^4.8",
         "slevomat/coding-standard": "^8.0",
         "squizlabs/php_codesniffer": "^3.5",
         "symfony/filesystem": "^4.4 || ^5.2",
@@ -61,6 +62,8 @@
         "phpcbf": "phpcbf",
         "phpcs": "phpcs -s",
         "phpunit": "phpunit",
+        "psalm": "psalm.phar",
+        "psalter": "psalm.phar --alter --issues=all",
         "test": "phpunit --coverage-html $(pwd)/var/phpunit/coverage-report --coverage-text --color=always",
         "unit": "phpunit --testsuite=Unit"
     },
@@ -71,6 +74,8 @@
         "phpcbf": "Automatically fixes standards violations where possible.",
         "phpcs": "Checks code for standards compliance.",
         "phpunit": "Runs PHPUnit tests.",
+        "psalm": "Automatically fixes Psalm errors where possible.",
+        "psalter": "Automatically fixes Psalm errors where possible.",
         "test": "Runs automated tests.",
         "unit": "Runs unit tests."
     }
