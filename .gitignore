@@ -1,4 +1,5 @@
 !/.idea/dictionaries/project.xml
+!/var/*/.gitkeep
 /.idea/dictionaries/*
 /phpunit.xml
 /var/
