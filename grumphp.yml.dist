@@ -1,0 +1,64 @@
+---
+grumphp:
+    ascii:
+        failed: ~
+        succeeded: ~
+    fixer:
+        enabled: false
+    hide_circumvention_tip: true
+
+    tasks:
+        composer: ~
+        composer_normalize: ~
+        phpcs:
+            standard: []
+            whitelist_patterns:
+                - phpcs
+                - phpstan
+                - src
+                - tests
+        phplint:
+            ignore_patterns:
+                - .idea
+                - var
+                - vendor
+        phpmd:
+            whitelist_patterns:
+                - src
+            ruleset:
+                - phpmd
+        phpstan:
+            use_grumphp_paths: false
+        phpunit: ~
+        psalm: ~
+        securitychecker_roave: ~
+        xmllint:
+            ignore_patterns:
+                - .idea
+                - var
+                - vendor
+            triggered_by:
+                - xml
+                - xml.dist
+        yamllint:
+            whitelist_patterns:
+                - .github
+                - /^.*.ya?ml(.dist)?$/
+                - config
+                - src
+
+    testsuites:
+        static:
+            tasks:
+                - composer
+                - composer_normalize
+                - phpcs
+                - phplint
+                - phpmd
+                - psalm
+                - phpstan
+                - xmllint
+                - yamllint
+        test:
+            tasks:
+                - phpunit
