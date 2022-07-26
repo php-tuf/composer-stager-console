@@ -1,0 +1,71 @@
+parametersSchema:
+	gitattributesExportInclude: listOf(string())
+	preconditionSystemHash: string()
+
+parameters:
+    level: max
+    tmpDir: var/phpstan
+    paths:
+        - src
+        - tests/PHPUnit
+        - .gitattributes
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        -
+            message: "#Cannot access offset '[a-zA-Z0-9\\_]+' on mixed.#"
+            path: tests/PHPUnit
+        -
+            message: '#Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\) has parameter \$[a-zA-Z0-9\\_]+.+ with no type specified.#'
+            path: tests/PHPUnit
+        -
+            message: '#Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\) has parameter \$[a-zA-Z0-9\\_]+.+ with no value type specified in iterable type array.#'
+            path: tests/PHPUnit
+        -
+            message: '#Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\) return type has no value type specified in iterable type array.#'
+            path: tests/PHPUnit
+        -
+            message: '#Missing @throws [a-zA-Z0-9\\_]+ annotation#'
+            path: tests/PHPUnit
+        -
+            message: '#Parameter \#[0-9]+ \$[a-zA-Z0-9\\_]+ of (function|method) [a-zA-Z0-9\\_]+(::[a-zA-Z0-9\\_]+\(\)){0,1} expects [a-zA-Z0-9]+, [a-zA-Z0-9\|]+ given.#'
+            path: tests/PHPUnit
+        -
+            message: '#PHPDoc tag @throws with type [a-zA-Z0-9\\_]+ is not compatible with parent#'
+            paths:
+                - src/Console/Application.php
+                - src/Console/Command/AbstractCommand.php
+                - src/Console/Command/StageCommand.php
+        -
+            message: '#Private properties should be sorted alphabetically by variable. The first wrong one is "\$prophecyAssertionsCounted".#'
+            path: tests/PHPUnit
+
+    # Custom parameters.
+    gitattributesExportInclude:
+        - bin
+        - composer.json
+        - config
+        - LICENSE
+        - README.md
+        - src
+    preconditionSystemHash: f41703e49800bce6744b9116afb30d6a
+
+rules:
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\Methods\ForbiddenConcreteTypeHintRule # Forbids using concrete classes in type hints when an interface is available.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\Methods\SortedRequiredConstructorParametersRule # Requires non-optional constructor parameters to be alphabetized.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\PhpDoc\CoverageAnnotationHasNoParenthesesRule # Ensures that coverage annotations have no trailing parentheses.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\PhpDoc\PropertyDataTypePutsObjectProphecyLastRule # Requires "@property" data types to put ObjectProphecy last.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\PhpDoc\SortedCoversAnnotationsRule # Requires "@covers" annotations to be sorted alphabetically.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\PhpDoc\SortedPropertyAnnotationsRule # Requires "@property" annotations to be sorted alphabetically.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\PhpDoc\SortedSeeAnnotationsRule # Requires "@see" annotations to be sorted alphabetically.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\PhpDoc\SortedThrowsAnnotationsRule # Requires "@throws" annotations to be sorted alphabetically.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\PhpDoc\SortedUsesAnnotationsRule # Requires "@uses" annotations to be sorted alphabetically.
+    - PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\Properties\SortedPropertiesRule # Requires class properties to be alphabetized within their visibility grouping.
+
+services:
+    -
+        # Ensures that a conscious decision is made about whether to include new repository root paths in Git archive files.
+        class: PhpTuf\ComposerStagerConsole\Tests\PHPStan\Rules\Files\GitattributesMissingExportIgnoreRule
+        arguments:
+            gitattributesExportInclude: %gitattributesExportInclude%
+        tags:
+            - phpstan.rules.rule
