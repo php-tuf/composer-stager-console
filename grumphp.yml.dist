@@ -22,11 +22,6 @@ grumphp:
                 - .idea
                 - var
                 - vendor
-        phpmd:
-            whitelist_patterns:
-                - src
-            ruleset:
-                - phpmd
         phpstan:
             use_grumphp_paths: false
         phpunit: ~
@@ -53,7 +48,6 @@ grumphp:
                 - composer_normalize
                 - phpcs
                 - phplint
-                - phpmd
                 - psalm
                 - phpstan
                 - xmllint
