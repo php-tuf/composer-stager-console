@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1dd7c4f6ce927f23407334ca4bb0ecc5",
+    "content-hash": "c6ed3ac0bdde4277fc5af4e937238210",
     "packages": [
         {
             "name": "php-tuf/composer-stager",
