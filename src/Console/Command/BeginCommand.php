@@ -14,13 +14,9 @@ final class BeginCommand extends AbstractCommand
 {
     private const NAME = 'begin';
 
-    private BeginnerInterface $beginner;
-
-    public function __construct(BeginnerInterface $beginner, PathFactoryInterface $pathFactory)
+    public function __construct(private BeginnerInterface $beginner, PathFactoryInterface $pathFactory)
     {
         parent::__construct(self::NAME, $pathFactory);
-
-        $this->beginner = $beginner;
     }
 
     protected function configure(): void

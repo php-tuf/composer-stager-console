@@ -20,17 +20,13 @@ abstract class AbstractCommand extends Command
     public const FAILURE = 1;
     public const INVALID = 2;
 
-    protected PathFactoryInterface $pathFactory;
-
     private PathInterface $activeDir;
 
     private PathInterface $stagingDir;
 
-    public function __construct(string $name, PathFactoryInterface $pathFactory)
+    public function __construct(string $name, protected PathFactoryInterface $pathFactory)
     {
         parent::__construct($name);
-
-        $this->pathFactory = $pathFactory;
     }
 
     public function getStagingDir(): PathInterface

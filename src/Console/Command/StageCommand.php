@@ -17,13 +17,9 @@ final class StageCommand extends AbstractCommand
 {
     private const NAME = 'stage';
 
-    private StagerInterface $stager;
-
-    public function __construct(PathFactoryInterface $pathFactory, StagerInterface $stager)
+    public function __construct(PathFactoryInterface $pathFactory, private StagerInterface $stager)
     {
         parent::__construct(self::NAME, $pathFactory);
-
-        $this->stager = $stager;
     }
 
     /** @throws \Symfony\Component\Console\Exception\InvalidArgumentException */

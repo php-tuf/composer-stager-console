@@ -10,14 +10,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 /** @internal */
 final class ProcessOutputCallback implements ProcessOutputCallbackInterface
 {
-    private InputInterface $input;
-
-    private OutputInterface $output;
-
-    public function __construct(InputInterface $input, OutputInterface $output)
+    public function __construct(private InputInterface $input, private OutputInterface $output)
     {
-        $this->input = $input;
-        $this->output = $output;
     }
 
     public function __invoke(string $type, string $buffer): void

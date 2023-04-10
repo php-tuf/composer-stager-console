@@ -24,7 +24,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [ "7.4" ]
+                php: [ "8.1" ]
         steps:
             -   name: "Set up PHP"
                 uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
@@ -49,14 +49,13 @@ jobs:
                 run: "composer security"
 
     tests:
-        name: "Test: ${{ matrix.os }}, ${{ matrix.dependencies }} (${{ matrix.php }})"
+        name: "Test: ${{ matrix.os }} (${{ matrix.php }})"
         runs-on: "${{ matrix.os }}"
         strategy:
             fail-fast: false
             matrix:
                 os: [ ubuntu-latest, macos-latest, windows-latest ]
-                php: [ "7.4", "8.0", "8.1" ]
-                dependencies: [ lowest, highest ]
+                php: [ "8.1" ]
         steps:
             -   name: "Debugging info"
                 run: "rsync --version | head -1"
@@ -73,11 +72,6 @@ jobs:
 
             -   name: "Install dependencies"
                 uses: ramsey/composer-install@v2 # https://github.com/marketplace/actions/install-composer-dependencies
-                with:
-                    dependency-versions: "${{ matrix.dependencies }}"
-                    # Disable Composer caching due to random failures it causes, particularly on Windows jobs.
-                    # @see https://github.com/ramsey/composer-install/issues/79
-                    composer-options: "--no-cache"
 
             -   name: "Run tests"
                 run: "composer phpunit"

@@ -19,13 +19,9 @@ final class CleanCommand extends AbstractCommand
 {
     private const NAME = 'clean';
 
-    private CleanerInterface $cleaner;
-
-    public function __construct(CleanerInterface $cleaner, PathFactoryInterface $pathFactory)
+    public function __construct(private CleanerInterface $cleaner, PathFactoryInterface $pathFactory)
     {
         parent::__construct(self::NAME, $pathFactory);
-
-        $this->cleaner = $cleaner;
     }
 
     protected function configure(): void
