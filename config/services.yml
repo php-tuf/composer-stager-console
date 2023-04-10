@@ -4,7 +4,7 @@ services:
     _defaults:
         autoconfigure: true
         autowire: true
-        public: false
+        public: true
 
     PhpTuf\ComposerStagerConsole\:
         resource: '../src/*'
