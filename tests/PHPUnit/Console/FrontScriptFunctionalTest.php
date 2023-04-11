@@ -23,6 +23,9 @@ final class FrontScriptFunctionalTest extends TestCase
 
     public function testCommandList(): void
     {
+        // @see https://github.com/symfony/symfony/issues/49996
+        self::markTestSkipped('Test case skipped due to upstream issue: https://github.com/symfony/symfony/issues/49996');
+
         $process = self::runFrontScript(['--format=json', 'list']);
         $output = $process->getOutput();
 
