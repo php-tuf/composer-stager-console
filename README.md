@@ -16,6 +16,7 @@ The console command is used by installing it via Git and invoking its executable
 
 ```shell
 git clone https://github.com/php-tuf/composer-stager-console.git
+composer install --working-dir=composer-stager-console
 php composer-stager-console/bin/composer-stage
 ```
 
