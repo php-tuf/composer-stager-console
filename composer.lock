@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e93beb8ea4b47417bb304baafe1781f",
+    "content-hash": "5f4e92bb3eabeba042ccc1801ed8daaf",
     "packages": [
         {
             "name": "php-tuf/composer-stager",
@@ -2502,16 +2502,16 @@
         },
         {
             "name": "phpro/grumphp-shim",
-            "version": "v1.16.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/grumphp-shim.git",
-                "reference": "98f7d27631785b48270af88e33abcc591ae022fc"
+                "reference": "831af9fb5a9d2d918f1fc3ca9a4816a6e86f65fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/98f7d27631785b48270af88e33abcc591ae022fc",
-                "reference": "98f7d27631785b48270af88e33abcc591ae022fc",
+                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/831af9fb5a9d2d918f1fc3ca9a4816a6e86f65fd",
+                "reference": "831af9fb5a9d2d918f1fc3ca9a4816a6e86f65fd",
                 "shasum": ""
             },
             "require": {
@@ -2555,9 +2555,9 @@
             "description": "GrumPHP Phar distribution",
             "support": {
                 "issues": "https://github.com/phpro/grumphp-shim/issues",
-                "source": "https://github.com/phpro/grumphp-shim/tree/v1.16.0"
+                "source": "https://github.com/phpro/grumphp-shim/tree/v2.0.0"
             },
-            "time": "2023-04-27T11:06:59+00:00"
+            "time": "2023-06-18T13:27:11+00:00"
         },
         {
             "name": "phpspec/prophecy",
