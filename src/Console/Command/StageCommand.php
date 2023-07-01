@@ -47,12 +47,7 @@ final class StageCommand extends AbstractCommand
         ;
     }
 
-    /**
-     * @return int
-     *   The exit code.
-     *
-     * @throws \Symfony\Component\Console\Exception\LogicException
-     */
+    /** @throws \Symfony\Component\Console\Exception\LogicException */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
