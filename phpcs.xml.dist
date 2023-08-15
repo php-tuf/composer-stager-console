@@ -16,7 +16,7 @@
     <file>tests</file>
 
     <rule ref="PHPCompatibility"/>
-    <config name="testVersion" value="7.4-"/>
+    <config name="testVersion" value="8.1-"/>
 
     <rule ref="PSR2">
         <exclude name="Generic.Files.LineLength"/>
@@ -221,7 +221,10 @@
     <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
     <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
     <rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint.enableMixedTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint.enableObjectTypeHint"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint.enableUnionTypeHint"/>
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint.traversableTypeHints"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
     <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint"/>
@@ -236,15 +239,7 @@
 
     <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces"/>
 
-    <!-- Remove once support for PHP 7 is dropped (i.e., minimum is 8.0 or above). -->
-    <rule ref="SlevomatCodingStandard.Exceptions.DisallowNonCapturingCatch"/>
-
-    <!-- Enable once support for PHP 7 is dropped (i.e., minimum is 8.0 or above). -->
-    <!-- <rule ref="SlevomatCodingStandard.Exceptions.RequireNonCapturingCatch"/> -->
-    <!-- <rule ref="SlevomatCodingStandard.TypeHints.enableUnionTypeHint"/> -->
-    <!-- <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint.enableMixedTypeHint"/> -->
-    <!-- <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint.enableUnionTypeHint"/> -->
-    <!-- <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint.traversableTypeHints"/> -->
+     <rule ref="SlevomatCodingStandard.Exceptions.RequireNonCapturingCatch"/>
 
     <!-- Exclusions for test classes. -->
     <rule ref="SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder"><exclude-pattern>tests</exclude-pattern></rule>

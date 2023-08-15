@@ -17,7 +17,7 @@ final class StageCommand extends AbstractCommand
 {
     private const NAME = 'stage';
 
-    public function __construct(PathFactoryInterface $pathFactory, private StagerInterface $stager)
+    public function __construct(PathFactoryInterface $pathFactory, private readonly StagerInterface $stager)
     {
         parent::__construct(self::NAME, $pathFactory);
     }

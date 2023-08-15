@@ -11,6 +11,7 @@ use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\StageCommand;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -22,12 +23,12 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\StageCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
- *
- * @property \PhpTuf\ComposerStager\Domain\Core\Stager\StagerInterface|\Prophecy\Prophecy\ObjectProphecy $stager
- * @property \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface|\Prophecy\Prophecy\ObjectProphecy $pathFactory
  */
 final class StageCommandUnitTest extends CommandTestCase
 {
+    private PathFactoryInterface|ObjectProphecy $pathFactory;
+    private StagerInterface|ObjectProphecy $stager;
+
     protected function setUp(): void
     {
         $this->pathFactory = $this->prophesize(PathFactoryInterface::class);

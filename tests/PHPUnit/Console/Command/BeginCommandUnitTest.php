@@ -13,6 +13,7 @@ use PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -24,12 +25,11 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
- *
- * @property \PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface|\Prophecy\Prophecy\ObjectProphecy $beginner
- * @property \PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface|\Prophecy\Prophecy\ObjectProphecy $pathFactory
  */
 final class BeginCommandUnitTest extends CommandTestCase
 {
+    private BeginnerInterface|ObjectProphecy $beginner;
+
     protected function setUp(): void
     {
         $this->beginner = $this->prophesize(BeginnerInterface::class);

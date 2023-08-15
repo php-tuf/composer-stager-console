@@ -11,6 +11,7 @@ use PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -23,11 +24,11 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::configure
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand::confirm
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback::__construct
- *
- * @property \PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface|\Prophecy\Prophecy\ObjectProphecy $cleaner
  */
 final class CleanCommandUnitTest extends CommandTestCase
 {
+    private CleanerInterface|ObjectProphecy $cleaner;
+
     protected function setUp(): void
     {
         $this->cleaner = $this->prophesize(CleanerInterface::class);

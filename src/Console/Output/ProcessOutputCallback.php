@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /** @internal */
 final class ProcessOutputCallback implements ProcessOutputCallbackInterface
 {
-    public function __construct(private InputInterface $input, private OutputInterface $output)
+    public function __construct(private readonly InputInterface $input, private readonly OutputInterface $output)
     {
     }
 
@@ -20,7 +20,7 @@ final class ProcessOutputCallback implements ProcessOutputCallbackInterface
             if ($this->input->getOption('quiet') === true) {
                 return;
             }
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
             // The interface allows no exceptions.
             return;
         }

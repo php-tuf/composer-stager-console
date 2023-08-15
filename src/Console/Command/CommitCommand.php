@@ -19,7 +19,7 @@ final class CommitCommand extends AbstractCommand
 {
     private const NAME = 'commit';
 
-    public function __construct(private CommitterInterface $committer, PathFactoryInterface $pathFactory)
+    public function __construct(private readonly CommitterInterface $committer, PathFactoryInterface $pathFactory)
     {
         parent::__construct(self::NAME, $pathFactory);
     }

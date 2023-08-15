@@ -12,6 +12,7 @@ use PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Command\Command;
 
 /**
@@ -23,11 +24,11 @@ use Symfony\Component\Console\Command\Command;
  * @uses \PhpTuf\ComposerStagerConsole\Console\Application
  * @uses \PhpTuf\ComposerStagerConsole\Console\Command\CommitCommand
  * @uses \PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback
- *
- * @property \PhpTuf\ComposerStager\Domain\Core\Committer\CommitterInterface|\Prophecy\Prophecy\ObjectProphecy $committer
  */
 final class CommitCommandUnitTest extends CommandTestCase
 {
+    private CommitterInterface|ObjectProphecy $committer;
+
     protected function setUp(): void
     {
         $this->committer = $this->prophesize(CommitterInterface::class);
