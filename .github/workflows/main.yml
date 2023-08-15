@@ -1,5 +1,5 @@
 ---
-name: Tests
+name: Main
 
 on:
     push:
@@ -20,7 +20,7 @@ on:
 jobs:
     quality_check:
         name: "Quality Check"
-        runs-on: macos-latest
+        runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
@@ -30,17 +30,13 @@ jobs:
                 uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
                 with:
                     php-version: "${{ matrix.php }}"
-                    coverage: xdebug2
+                    coverage: none
 
             -   name: "Checkout code"
                 uses: actions/checkout@v3 # https://github.com/marketplace/actions/checkout
 
             -   name: "Install dependencies"
                 uses: ramsey/composer-install@v2 # https://github.com/marketplace/actions/install-composer-dependencies
-                with:
-                    # Disable Composer caching due to random failures it causes.
-                    # @see https://github.com/ramsey/composer-install/issues/79
-                    composer-options: "--no-cache"
 
             -   name: "Run all quality checks"
                 run: "composer static"
@@ -65,7 +61,7 @@ jobs:
                 uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
                 with:
                     php-version: "${{ matrix.php }}"
-                    coverage: xdebug2
+                    coverage: none
 
             -   name: "Checkout code"
                 uses: actions/checkout@v3 # https://github.com/marketplace/actions/checkout
