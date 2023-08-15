@@ -2,16 +2,17 @@
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\Core\Beginner\BeginnerInterface;
-use PhpTuf\ComposerStager\Domain\Exception\InvalidArgumentException;
-use PhpTuf\ComposerStager\Domain\Exception\RuntimeException;
-use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactory;
-use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactoryInterface;
+use PhpTuf\ComposerStager\API\Core\BeginnerInterface;
+use PhpTuf\ComposerStager\API\Exception\InvalidArgumentException;
+use PhpTuf\ComposerStager\API\Exception\RuntimeException;
+use PhpTuf\ComposerStager\API\Path\Factory\PathFactoryInterface;
+use PhpTuf\ComposerStager\Internal\Path\Factory\PathFactory;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\BeginCommand;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
+use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Translation\TestTranslatableMessage;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Command\Command;
@@ -104,8 +105,8 @@ final class BeginCommandUnitTest extends CommandTestCase
     public function providerCommandFailure(): array
     {
         return [
-            ['exception' => new InvalidArgumentException('Lorem'), 'message' => 'Lorem'],
-            ['exception' => new RuntimeException('Ipsum'), 'message' => 'Ipsum'],
+            ['exception' => new InvalidArgumentException(new TestTranslatableMessage('Lorem')), 'message' => 'Lorem'],
+            ['exception' => new RuntimeException(new TestTranslatableMessage('Ipsum')), 'message' => 'Ipsum'],
         ];
     }
 }

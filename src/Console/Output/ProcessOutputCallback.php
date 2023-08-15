@@ -2,19 +2,20 @@
 
 namespace PhpTuf\ComposerStagerConsole\Console\Output;
 
-use PhpTuf\ComposerStager\Domain\Service\ProcessOutputCallback\ProcessOutputCallbackInterface;
+use PhpTuf\ComposerStager\API\Process\Service\OutputCallbackInterface;
+use PhpTuf\ComposerStager\API\Process\Value\OutputTypeEnum;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /** @internal */
-final class ProcessOutputCallback implements ProcessOutputCallbackInterface
+final class ProcessOutputCallback implements OutputCallbackInterface
 {
     public function __construct(private readonly InputInterface $input, private readonly OutputInterface $output)
     {
     }
 
-    public function __invoke(string $type, string $buffer): void
+    public function __invoke(OutputTypeEnum $type, string $buffer): void
     {
         try {
             if ($this->input->getOption('quiet') === true) {
