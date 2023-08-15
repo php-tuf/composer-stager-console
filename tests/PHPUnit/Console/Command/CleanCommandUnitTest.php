@@ -2,14 +2,15 @@
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 
-use PhpTuf\ComposerStager\Domain\Core\Cleaner\CleanerInterface;
-use PhpTuf\ComposerStager\Domain\Exception\RuntimeException;
-use PhpTuf\ComposerStager\Infrastructure\Factory\Path\PathFactory;
+use PhpTuf\ComposerStager\API\Core\CleanerInterface;
+use PhpTuf\ComposerStager\API\Exception\RuntimeException;
+use PhpTuf\ComposerStager\Internal\Path\Factory\PathFactory;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
 use PhpTuf\ComposerStagerConsole\Console\Command\CleanCommand;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\CommandTestCase;
+use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Translation\TestTranslatableMessage;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Command\Command;
@@ -122,7 +123,7 @@ final class CleanCommandUnitTest extends CommandTestCase
     public function testCommandFailure(): void
     {
         $message = 'Lorem';
-        $exception = new RuntimeException($message);
+        $exception = new RuntimeException(new TestTranslatableMessage($message));
 
         $this->cleaner
             ->clean(Argument::cetera())
