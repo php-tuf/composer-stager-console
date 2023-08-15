@@ -8,7 +8,7 @@ on:
             - .idea/**
             - docs/**
     pull_request:
-        branches: [ develop ]
+        branches: [ main ]
         paths-ignore:
             - .idea/**
             - docs/**
