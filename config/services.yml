@@ -23,10 +23,8 @@ services:
         factory: [ '@PhpTuf\ComposerStager\Internal\FileSyncer\Factory\FileSyncerFactory', 'create' ]
     PhpTuf\ComposerStager\Internal\FileSyncer\Factory\FileSyncerFactory:
         arguments:
-            $phpFileSyncer: '@PhpTuf\ComposerStager\Internal\FileSyncer\Service\PhpFileSyncer'
-            $rsyncFileSyncer: '@PhpTuf\ComposerStager\Internal\FileSyncer\Service\RsyncFileSyncer'
-    PhpTuf\ComposerStager\Internal\FileSyncer\Service\PhpFileSyncer: ~
-    PhpTuf\ComposerStager\Internal\FileSyncer\Service\RsyncFileSyncer: ~
+            $phpFileSyncer: '@PhpTuf\ComposerStager\API\FileSyncer\Service\PhpFileSyncerInterface'
+            $rsyncFileSyncer: '@PhpTuf\ComposerStager\API\FileSyncer\Service\RsyncFileSyncerInterface'
 
     Symfony\Component\Filesystem\Filesystem: ~
     Symfony\Component\Process\ExecutableFinder: ~
