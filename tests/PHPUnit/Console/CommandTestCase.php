@@ -2,10 +2,15 @@
 
 namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console;
 
+use PhpTuf\ComposerStager\API\Path\Value\PathInterface;
+use PhpTuf\ComposerStager\Internal\Path\Factory\PathFactory;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Tests\PHPUnit\TestCase;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 abstract class CommandTestCase extends TestCase
 {
@@ -21,6 +26,28 @@ abstract class CommandTestCase extends TestCase
      *   mocked dependencies injected.
      */
     abstract protected function createSut(): Command;
+
+    /** Creates a service container. */
+    protected function container(): ContainerBuilder
+    {
+        $container = new ContainerBuilder();
+
+        $loader = new YamlFileLoader($container, new FileLocator());
+        $loader->load(__DIR__ . '/../../../config/services.yml');
+
+        $container->compile();
+
+        return $container;
+    }
+
+    /** Creates a path object. */
+    protected function path(string $path, ?PathInterface $basePath = null): PathInterface
+    {
+        /** @var \PhpTuf\ComposerStager\Internal\Path\Factory\PathFactory $pathFactory */
+        $pathFactory = $this->container()->get(PathFactory::class);
+
+        return $pathFactory->create($path, $basePath);
+    }
 
     /**
      * Executes a given command with the command tester.

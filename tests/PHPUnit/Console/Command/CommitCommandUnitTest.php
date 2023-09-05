@@ -71,8 +71,8 @@ final class CommitCommandUnitTest extends CommandTestCase
      */
     public function testBasicExecution($activeDir, $stagingDir): void
     {
-        $activeDirPath = PathFactory::create($activeDir);
-        $stagingDirPath = PathFactory::create($stagingDir);
+        $activeDirPath = $this->path($activeDir);
+        $stagingDirPath = $this->path($stagingDir);
         $this->committer
             ->commit($stagingDirPath, $activeDirPath, null, Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();

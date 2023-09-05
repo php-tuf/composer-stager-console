@@ -69,8 +69,8 @@ final class CleanCommandUnitTest extends CommandTestCase
      */
     public function testBasicExecution(): void
     {
-        $activeDir = PathFactory::create(self::ACTIVE_DIR);
-        $stagingDir = PathFactory::create(self::STAGING_DIR);
+        $activeDir = $this->path(self::ACTIVE_DIR);
+        $stagingDir = $this->path(self::STAGING_DIR);
         $this->cleaner
             ->clean($activeDir, $stagingDir, Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();
