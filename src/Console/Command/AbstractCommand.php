@@ -39,11 +39,11 @@ abstract class AbstractCommand extends Command
     {
         $activeDir = $input->getOption(Application::ACTIVE_DIR_OPTION);
         assert(is_string($activeDir));
-        $this->activeDir = $this->pathFactory::create($activeDir);
+        $this->activeDir = $this->pathFactory->create($activeDir);
 
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
         assert(is_string($stagingDir));
-        $this->stagingDir = $this->pathFactory::create($stagingDir);
+        $this->stagingDir = $this->pathFactory->create($stagingDir);
     }
 
     protected function getActiveDir(): PathInterface

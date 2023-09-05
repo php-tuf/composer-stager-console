@@ -76,8 +76,8 @@ final class StageCommandUnitTest extends CommandTestCase
      */
     public function testBasicExecution($composerCommand, $activeDir, $stagingDir): void
     {
-        $activeDirPath = PathFactory::create($activeDir);
-        $stagingDirPath = PathFactory::create($stagingDir);
+        $activeDirPath = $this->path($activeDir);
+        $stagingDirPath = $this->path($stagingDir);
         $this->stager
             ->stage($composerCommand, $activeDirPath, $stagingDirPath, Argument::any())
             ->shouldBeCalledOnce();

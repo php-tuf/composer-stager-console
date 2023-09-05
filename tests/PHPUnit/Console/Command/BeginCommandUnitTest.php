@@ -69,9 +69,9 @@ final class BeginCommandUnitTest extends CommandTestCase
     public function testBasicExecution(): void
     {
         $activeDir = 'one/two';
-        $activeDirPath = PathFactory::create('one/two');
+        $activeDirPath = $this->path('one/two');
         $stagingDir = 'three/four';
-        $stagingDirPath = PathFactory::create('three/four');
+        $stagingDirPath = $this->path('three/four');
         $this->beginner
             ->begin($activeDirPath, $stagingDirPath, null, Argument::type(ProcessOutputCallback::class))
             ->shouldBeCalledOnce();
