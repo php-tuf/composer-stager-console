@@ -2606,22 +2606,22 @@
         },
         {
             "name": "phpro/grumphp-shim",
-            "version": "v2.2.0",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/grumphp-shim.git",
-                "reference": "b75325940c3e923d4f47ae0aad7b52136be1ace6"
+                "reference": "976cfa9822ed9821a8e8aa1ee7376ac12034c4e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/b75325940c3e923d4f47ae0aad7b52136be1ace6",
-                "reference": "b75325940c3e923d4f47ae0aad7b52136be1ace6",
+                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/976cfa9822ed9821a8e8aa1ee7376ac12034c4e2",
+                "reference": "976cfa9822ed9821a8e8aa1ee7376ac12034c4e2",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "~2.0",
                 "ext-json": "*",
-                "php": "^8.1"
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0"
             },
             "replace": {
                 "phpro/grumphp": "self.version"
@@ -2659,9 +2659,9 @@
             "description": "GrumPHP Phar distribution",
             "support": {
                 "issues": "https://github.com/phpro/grumphp-shim/issues",
-                "source": "https://github.com/phpro/grumphp-shim/tree/v2.2.0"
+                "source": "https://github.com/phpro/grumphp-shim/tree/v2.3.0"
             },
-            "time": "2023-10-27T05:22:40+00:00"
+            "time": "2023-11-24T06:58:33+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -2876,16 +2876,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.43",
+            "version": "1.10.45",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "2c4129f6ca8c7cfa870098884b8869b410a5a361"
+                "reference": "2f024fbb47432e2e62ad8a8032387aa2dd631c73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2c4129f6ca8c7cfa870098884b8869b410a5a361",
-                "reference": "2c4129f6ca8c7cfa870098884b8869b410a5a361",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2f024fbb47432e2e62ad8a8032387aa2dd631c73",
+                "reference": "2f024fbb47432e2e62ad8a8032387aa2dd631c73",
                 "shasum": ""
             },
             "require": {
@@ -2934,7 +2934,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-19T19:55:25+00:00"
+            "time": "2023-11-27T14:15:06+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -3457,16 +3457,16 @@
         },
         {
             "name": "psalm/phar",
-            "version": "5.15.0",
+            "version": "5.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/phar.git",
-                "reference": "19dde3eba5901ff50ca43a5e4c43540f097e0511"
+                "reference": "be4f93e50edf473d60a6e6f9c1d78546a3a32b90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/phar/zipball/19dde3eba5901ff50ca43a5e4c43540f097e0511",
-                "reference": "19dde3eba5901ff50ca43a5e4c43540f097e0511",
+                "url": "https://api.github.com/repos/psalm/phar/zipball/be4f93e50edf473d60a6e6f9c1d78546a3a32b90",
+                "reference": "be4f93e50edf473d60a6e6f9c1d78546a3a32b90",
                 "shasum": ""
             },
             "require": {
@@ -3486,9 +3486,9 @@
             "description": "Composer-based Psalm Phar",
             "support": {
                 "issues": "https://github.com/psalm/phar/issues",
-                "source": "https://github.com/psalm/phar/tree/5.15.0"
+                "source": "https://github.com/psalm/phar/tree/5.16.0"
             },
-            "time": "2023-08-21T03:20:52+00:00"
+            "time": "2023-11-22T22:05:24+00:00"
         },
         {
             "name": "sebastian/cli-parser",
