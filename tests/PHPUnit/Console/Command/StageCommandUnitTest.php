@@ -40,7 +40,7 @@ final class StageCommandUnitTest extends CommandTestCase
 
     protected function createSut(): Command
     {
-        $pathFactory = new PathFactory();
+        $pathFactory = $this->container()->get(PathFactory::class);
         $stager = $this->stager->reveal();
 
         return new StageCommand($pathFactory, $stager);

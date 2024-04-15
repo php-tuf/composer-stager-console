@@ -42,7 +42,7 @@ final class CommitCommandUnitTest extends CommandTestCase
     protected function createSut(): Command
     {
         $committer = $this->committer->reveal();
-        $pathFactory = new PathFactory();
+        $pathFactory = $this->container()->get(PathFactory::class);
 
         return new CommitCommand($committer, $pathFactory);
     }

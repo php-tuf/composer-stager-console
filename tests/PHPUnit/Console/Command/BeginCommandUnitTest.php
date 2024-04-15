@@ -42,7 +42,7 @@ final class BeginCommandUnitTest extends CommandTestCase
     protected function createSut(): Command
     {
         $beginner = $this->beginner->reveal();
-        $pathFactory = new PathFactory();
+        $pathFactory = $this->container()->get(PathFactory::class);
 
         return new BeginCommand($beginner, $pathFactory);
     }
