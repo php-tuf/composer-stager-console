@@ -4,15 +4,19 @@
 version: 2
 
 updates:
-    - package-ecosystem: "composer"
-      directory: "/"
-      schedule:
-          interval: "weekly"
-      groups:
-          all:
-              patterns:
-                  - "*"
-    - package-ecosystem: "github-actions"
-      directory: "/"
-      schedule:
-          interval: "daily"
+    -   package-ecosystem: "composer"
+        directory: "/"
+        schedule:
+            interval: "weekly"
+        groups:
+            all:
+                patterns:
+                    - "*"
+        ignore:
+            -   dependency-name: "phpunit/phpunit"
+                versions: [ "10.x", "11.x" ]
+
+    -   package-ecosystem: "github-actions"
+        directory: "/"
+        schedule:
+            interval: "weekly"
