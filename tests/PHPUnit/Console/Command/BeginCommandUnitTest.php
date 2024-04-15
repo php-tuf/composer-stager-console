@@ -5,7 +5,6 @@ namespace PhpTuf\ComposerStagerConsole\Tests\PHPUnit\Console\Command;
 use PhpTuf\ComposerStager\API\Core\BeginnerInterface;
 use PhpTuf\ComposerStager\API\Exception\InvalidArgumentException;
 use PhpTuf\ComposerStager\API\Exception\RuntimeException;
-use PhpTuf\ComposerStager\API\Path\Factory\PathFactoryInterface;
 use PhpTuf\ComposerStager\Internal\Path\Factory\PathFactory;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use PhpTuf\ComposerStagerConsole\Console\Command\AbstractCommand;
@@ -36,7 +35,6 @@ final class BeginCommandUnitTest extends CommandTestCase
         $this->beginner = $this->prophesize(BeginnerInterface::class);
         $this->beginner
             ->begin(Argument::cetera());
-        $this->pathFactory = $this->prophesize(PathFactoryInterface::class);
 
         parent::setUp();
     }
@@ -44,7 +42,7 @@ final class BeginCommandUnitTest extends CommandTestCase
     protected function createSut(): Command
     {
         $beginner = $this->beginner->reveal();
-        $pathFactory = new PathFactory();
+        $pathFactory = $this->container()->get(PathFactory::class);
 
         return new BeginCommand($beginner, $pathFactory);
     }

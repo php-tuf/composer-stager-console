@@ -19,14 +19,5 @@ services:
             - '../vendor/php-tuf/composer-stager/src/*/*/Value'
             - '../vendor/php-tuf/composer-stager/src/API/Exception'
 
-    PhpTuf\ComposerStager\API\FileSyncer\Service\FileSyncerInterface:
-        factory: [ '@PhpTuf\ComposerStager\Internal\FileSyncer\Factory\FileSyncerFactory', 'create' ]
-    PhpTuf\ComposerStager\Internal\FileSyncer\Factory\FileSyncerFactory:
-        arguments:
-            $phpFileSyncer: '@PhpTuf\ComposerStager\Internal\FileSyncer\Service\PhpFileSyncer'
-            $rsyncFileSyncer: '@PhpTuf\ComposerStager\Internal\FileSyncer\Service\RsyncFileSyncer'
-    PhpTuf\ComposerStager\Internal\FileSyncer\Service\PhpFileSyncer: ~
-    PhpTuf\ComposerStager\Internal\FileSyncer\Service\RsyncFileSyncer: ~
-
     Symfony\Component\Filesystem\Filesystem: ~
     Symfony\Component\Process\ExecutableFinder: ~

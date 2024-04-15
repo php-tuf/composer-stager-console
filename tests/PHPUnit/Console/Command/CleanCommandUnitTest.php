@@ -42,7 +42,7 @@ final class CleanCommandUnitTest extends CommandTestCase
     protected function createSut(): Command
     {
         $cleaner = $this->cleaner->reveal();
-        $pathFactory = new PathFactory();
+        $pathFactory = $this->container()->get(PathFactory::class);
 
         return new CleanCommand($cleaner, $pathFactory);
     }
