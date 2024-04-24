@@ -1,7 +1,7 @@
-!/.idea/dictionaries/project.xml
-!/var/*/.gitkeep
 /.idea/composer-stager-console.iml
 /.idea/dictionaries/*
+!/.idea/dictionaries/project.xml
+/.idea/php-test-framework.xml
 /.idea/php.xml
 /.idea/workspace.xml
 /grumphp.yml
@@ -10,3 +10,4 @@
 /psalm.xml
 /var/*/*
 /vendor/
+!/**/.gitkeep
