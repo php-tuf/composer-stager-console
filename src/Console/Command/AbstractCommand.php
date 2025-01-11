@@ -2,9 +2,15 @@
 
 namespace PhpTuf\ComposerStagerConsole\Console\Command;
 
+use FilesystemIterator;
 use PhpTuf\ComposerStager\API\Path\Factory\PathFactoryInterface;
+use PhpTuf\ComposerStager\API\Path\Factory\PathListFactoryInterface;
 use PhpTuf\ComposerStager\API\Path\Value\PathInterface;
+use PhpTuf\ComposerStager\API\Path\Value\PathListInterface;
+use PhpTuf\ComposerStager\Internal\Path\Factory\PathListFactory;
 use PhpTuf\ComposerStagerConsole\Console\Application;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,7 +30,9 @@ abstract class AbstractCommand extends Command
 
     private PathInterface $stagingDir;
 
-    public function __construct(string $name, protected PathFactoryInterface $pathFactory)
+	private PathListInterface $exclusions;
+
+    public function __construct(string $name, protected PathFactoryInterface $pathFactory, private ?PathListFactoryInterface $pathListFactory = null)
     {
         parent::__construct($name);
     }
@@ -33,6 +41,70 @@ abstract class AbstractCommand extends Command
     {
         return $this->stagingDir;
     }
+
+	/**
+	 * Get a list of all files and directories that are not in the given list, starting from the current directory
+	 * and descending into subdirectories recursively if a directory in the given list has multiple levels.
+	 *
+	 * @param string $currentDir The starting directory path.
+	 * @param array $includedPaths List of directories or files to include (relative paths).
+	 *
+	 * @return array The list of excluded files and directories.
+	 */
+	function getExcludedPaths( string $currentDir, array $includedPaths ): array
+	{
+		// Normalize the included paths (remove trailing slashes for directories).
+		$normalizedIncludedPaths = array_map( fn( $path ) => rtrim( $path, '/' ), $includedPaths );
+
+		// Store excluded paths.
+		$excludedPaths = [];
+
+		// Recursively iterate over all files and directories.
+		$iterator = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $currentDir, FilesystemIterator::SKIP_DOTS ),
+			RecursiveIteratorIterator::SELF_FIRST
+		);
+
+		foreach ( $iterator as $file ) {
+			// Get the relative path for the current file or directory.
+			$relativePath = str_replace( $currentDir . DIRECTORY_SEPARATOR, '', $file->getPathname() );
+
+			// Normalize the relative path.
+			$normalizedPath = rtrim( $relativePath, '/' );
+
+			// Check if the current path or its parent is included.
+			$isExcluded = true;
+			foreach ( $normalizedIncludedPaths as $includedPath ) {
+				// Allow exact matches or paths that are children of an included directory.
+				if (
+					$normalizedPath === $includedPath || // Exact match
+					strpos( $normalizedPath, $includedPath . '/' ) === 0 || // Is a child of the included path
+					strpos( $includedPath, $normalizedPath . '/' ) === 0 // Is a parent of the included path
+				) {
+					$isExcluded = false;
+					break;
+				}
+			}
+
+			// check if the current paths parent is already excluded
+			foreach ( $excludedPaths as $excludedPath ) {
+				// Allow exact matches or paths that are children of an included directory.
+				if (
+					strpos( $normalizedPath, $excludedPath . '/' ) === 0 // Is a child of the excluded path
+				) {
+					$isExcluded = false;
+					break;
+				}
+			}
+
+			// If it's excluded, add it to the list.
+			if ( $isExcluded ) {
+				$excludedPaths[] = $relativePath;
+			}
+		}
+
+		return $excludedPaths;
+	}
 
     /** @throws \Symfony\Component\Console\Exception\InvalidArgumentException */
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -44,10 +116,24 @@ abstract class AbstractCommand extends Command
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
         assert(is_string($stagingDir));
         $this->stagingDir = $this->pathFactory->create($stagingDir);
+
+	    $includeDirs = $input->getOption( Application::INCLUDE_DIR_OPTION );
+
+		if ( $this->pathListFactory && ! empty( $includeDirs) ) {
+
+			// Filter the list to exclude the entries not in the included array
+			$exclusions = $this->getExcludedPaths($this->activeDir->absolute(), $includeDirs);
+			$this->exclusions = $this->pathListFactory->create( ...$exclusions);
+		}
     }
 
     protected function getActiveDir(): PathInterface
     {
         return $this->activeDir;
     }
+
+	protected function getExclusions(): PathListInterface
+	{
+		return $this->exclusions;
+	}
 }

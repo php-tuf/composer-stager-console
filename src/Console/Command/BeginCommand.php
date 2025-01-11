@@ -5,6 +5,7 @@ namespace PhpTuf\ComposerStagerConsole\Console\Command;
 use PhpTuf\ComposerStager\API\Core\BeginnerInterface;
 use PhpTuf\ComposerStager\API\Exception\ExceptionInterface;
 use PhpTuf\ComposerStager\API\Path\Factory\PathFactoryInterface;
+use PhpTuf\ComposerStager\API\Path\Factory\PathListFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,9 +15,9 @@ final class BeginCommand extends AbstractCommand
 {
     private const NAME = 'begin';
 
-    public function __construct(private readonly BeginnerInterface $beginner, PathFactoryInterface $pathFactory)
+    public function __construct(private readonly BeginnerInterface $beginner, PathFactoryInterface $pathFactory, PathListFactoryInterface $pathListFactory)
     {
-        parent::__construct(self::NAME, $pathFactory);
+        parent::__construct(self::NAME, $pathFactory, $pathListFactory);
     }
 
     protected function configure(): void
@@ -31,10 +32,11 @@ final class BeginCommand extends AbstractCommand
         //     API; be sure to catch the appropriate exceptions.
         // ---------------------------------------------------------------------
         try {
+
             $this->beginner->begin(
                 $this->getActiveDir(),
                 $this->getStagingDir(),
-                null,
+	            $this->getExclusions(),
                 new ProcessOutputCallback($input, $output),
             );
 
