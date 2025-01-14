@@ -15,7 +15,7 @@ final class Application extends DefaultApplication
 {
     public const ACTIVE_DIR_OPTION = 'active-dir';
     public const STAGING_DIR_OPTION = 'staging-dir';
-	public const INCLUDE_DIR_OPTION = 'include-dir';
+    public const INCLUDE_DIR_OPTION = 'include-dir';
 
     public const ACTIVE_DIR_DEFAULT = '.';
     public const STAGING_DIR_DEFAULT = '.composer_staging';
@@ -51,14 +51,14 @@ final class Application extends DefaultApplication
                     self::STAGING_DIR_DEFAULT,
                 ),
             );
-	        $inputDefinition->addOption(
-		        new InputOption(
-			        self::INCLUDE_DIR_OPTION,
-			        'i',
-			        InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
-			        'If specified only sync the given directories and exclude all others.'
-		        ),
-	        );
+            $inputDefinition->addOption(
+                new InputOption(
+                    self::INCLUDE_DIR_OPTION,
+                    'i',
+                    InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                    'If specified only sync the given directories and exclude all others.',
+                ),
+            );
         } catch (InvalidArgumentException $e) {
             throw new LogicException($e->getMessage(), $e->getCode(), $e);
         }

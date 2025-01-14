@@ -20,8 +20,11 @@ final class CommitCommand extends AbstractCommand
 {
     private const NAME = 'commit';
 
-    public function __construct(private readonly CommitterInterface $committer, PathFactoryInterface $pathFactory, PathListFactoryInterface $pathListFactory)
-    {
+    public function __construct(
+        private readonly CommitterInterface $committer,
+        PathFactoryInterface $pathFactory,
+        PathListFactoryInterface $pathListFactory,
+    ) {
         parent::__construct(self::NAME, $pathFactory, $pathListFactory);
     }
 
@@ -47,7 +50,7 @@ final class CommitCommand extends AbstractCommand
             $this->committer->commit(
                 $this->getStagingDir(),
                 $this->getActiveDir(),
-	            $this->getExclusions(),
+                $this->getExclusions(),
                 new ProcessOutputCallback($input, $output),
             );
 

@@ -15,8 +15,11 @@ final class BeginCommand extends AbstractCommand
 {
     private const NAME = 'begin';
 
-    public function __construct(private readonly BeginnerInterface $beginner, PathFactoryInterface $pathFactory, PathListFactoryInterface $pathListFactory)
-    {
+    public function __construct(
+        private readonly BeginnerInterface $beginner,
+        PathFactoryInterface $pathFactory,
+        PathListFactoryInterface $pathListFactory,
+    ) {
         parent::__construct(self::NAME, $pathFactory, $pathListFactory);
     }
 
@@ -32,11 +35,10 @@ final class BeginCommand extends AbstractCommand
         //     API; be sure to catch the appropriate exceptions.
         // ---------------------------------------------------------------------
         try {
-
             $this->beginner->begin(
                 $this->getActiveDir(),
                 $this->getStagingDir(),
-	            $this->getExclusions(),
+                $this->getExclusions(),
                 new ProcessOutputCallback($input, $output),
             );
 
