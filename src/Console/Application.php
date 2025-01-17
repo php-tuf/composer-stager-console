@@ -16,6 +16,7 @@ final class Application extends DefaultApplication
     public const ACTIVE_DIR_OPTION = 'active-dir';
     public const STAGING_DIR_OPTION = 'staging-dir';
     public const INCLUDE_DIR_OPTION = 'include-dir';
+    public const EXCLUDE_DIR_OPTION = 'exclude-dir';
 
     public const ACTIVE_DIR_DEFAULT = '.';
     public const STAGING_DIR_DEFAULT = '.composer_staging';
@@ -57,6 +58,14 @@ final class Application extends DefaultApplication
                     'i',
                     InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
                     'If specified only sync the given directories and exclude all others.',
+                ),
+            );
+            $inputDefinition->addOption(
+                new InputOption(
+                    self::EXCLUDE_DIR_OPTION,
+                    'e',
+                    InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                    'Specify directories to exclude from syncing.',
                 ),
             );
         } catch (InvalidArgumentException $e) {

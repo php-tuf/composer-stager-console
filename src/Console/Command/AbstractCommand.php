@@ -122,15 +122,21 @@ abstract class AbstractCommand extends Command
         assert(is_string($stagingDir));
         $this->stagingDir = $this->pathFactory->create($stagingDir);
 
-        $includeDirs = $input->getOption(Application::INCLUDE_DIR_OPTION);
-
-        if (!$this->pathListFactory || empty($includeDirs)) {
+        if (!$this->pathListFactory) {
             return;
         }
 
-        // Filter the list to exclude the entries not in the included array
-        $exclusions = $this->getExcludedPaths($this->activeDir->absolute(), $includeDirs);
-        $this->exclusions = $this->pathListFactory->create(...$exclusions);
+        $exclusions = [];
+        $includeDirs = $input->getOption(Application::INCLUDE_DIR_OPTION);
+
+        if (! empty($includeDirs)) {
+            // Filter the list to exclude the entries not in the included array
+            $exclusions = $this->getExcludedPaths($this->activeDir->absolute(), $includeDirs);
+        }
+
+        $excludeDirs = $input->getOption(Application::EXCLUDE_DIR_OPTION);
+
+        $this->exclusions = $this->pathListFactory->create(...$exclusions, ...$excludeDirs);
     }
 
     protected function getActiveDir(): PathInterface
