@@ -3694,16 +3694,16 @@
         },
         {
             "name": "psalm/phar",
-            "version": "6.2.0",
+            "version": "6.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/phar.git",
-                "reference": "42f1b116a4011f454275fa59e455de5b5aae3349"
+                "reference": "f7ecaf8740f32d58695cee5ac11663e02b44b223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/phar/zipball/42f1b116a4011f454275fa59e455de5b5aae3349",
-                "reference": "42f1b116a4011f454275fa59e455de5b5aae3349",
+                "url": "https://api.github.com/repos/psalm/phar/zipball/f7ecaf8740f32d58695cee5ac11663e02b44b223",
+                "reference": "f7ecaf8740f32d58695cee5ac11663e02b44b223",
                 "shasum": ""
             },
             "require": {
@@ -3723,9 +3723,9 @@
             "description": "Composer-based Psalm Phar",
             "support": {
                 "issues": "https://github.com/psalm/phar/issues",
-                "source": "https://github.com/psalm/phar/tree/6.2.0"
+                "source": "https://github.com/psalm/phar/tree/6.5.1"
             },
-            "time": "2025-02-03T11:08:06+00:00"
+            "time": "2025-02-10T10:05:10+00:00"
         },
         {
             "name": "sebastian/cli-parser",
