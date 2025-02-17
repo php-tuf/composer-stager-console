@@ -6,6 +6,7 @@ use PhpTuf\ComposerStager\API\Core\CommitterInterface;
 use PhpTuf\ComposerStager\API\Exception\ExceptionInterface;
 use PhpTuf\ComposerStager\API\Path\Factory\PathFactoryInterface;
 use PhpTuf\ComposerStager\API\Path\Factory\PathListFactoryInterface;
+use PhpTuf\ComposerStager\API\Path\Value\PathInterface;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
@@ -33,6 +34,11 @@ final class CommitCommand extends AbstractCommand
         $this->setDescription(
             'Makes the staged changes live by syncing the active directory with the staging directory',
         );
+    }
+
+    protected function getCurrentDir(): PathInterface
+    {
+        return $this->getStagingDir();
     }
 
     /** @throws \Symfony\Component\Console\Exception\LogicException */

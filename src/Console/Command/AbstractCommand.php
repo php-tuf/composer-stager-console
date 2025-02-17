@@ -131,7 +131,7 @@ abstract class AbstractCommand extends Command
 
         if (! empty($includeDirs)) {
             // Filter the list to exclude the entries not in the included array
-            $exclusions = $this->getExcludedPaths($this->activeDir->absolute(), $includeDirs);
+            $exclusions = $this->getExcludedPaths($this->getCurrentDir()->absolute(), $includeDirs);
         }
 
         $excludeDirs = $input->getOption(Application::EXCLUDE_DIR_OPTION);
@@ -142,6 +142,11 @@ abstract class AbstractCommand extends Command
     protected function getActiveDir(): PathInterface
     {
         return $this->activeDir;
+    }
+
+    protected function getCurrentDir(): PathInterface
+    {
+        return $this->getActiveDir();
     }
 
     protected function getExclusions(): PathListInterface
