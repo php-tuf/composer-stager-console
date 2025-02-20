@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d004f592f7e1c9e95836511afa4b9dd",
+    "content-hash": "81e6b441d8e3caae37082868b89cd68c",
     "packages": [
         {
             "name": "php-tuf/composer-stager",
@@ -3693,41 +3693,6 @@
             "time": "2024-12-05T13:48:26+00:00"
         },
         {
-            "name": "psalm/phar",
-            "version": "6.7.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/psalm/phar.git",
-                "reference": "a7112d33cfd48d857c2eb730ea642046d21bbdf5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/psalm/phar/zipball/a7112d33cfd48d857c2eb730ea642046d21bbdf5",
-                "reference": "a7112d33cfd48d857c2eb730ea642046d21bbdf5",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0"
-            },
-            "conflict": {
-                "vimeo/psalm": "*"
-            },
-            "bin": [
-                "psalm.phar"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Composer-based Psalm Phar",
-            "support": {
-                "issues": "https://github.com/psalm/phar/issues",
-                "source": "https://github.com/psalm/phar/tree/6.7.1"
-            },
-            "time": "2025-02-17T10:54:35+00:00"
-        },
-        {
             "name": "sebastian/cli-parser",
             "version": "1.0.2",
             "source": {
@@ -5005,7 +4970,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -5014,5 +4979,5 @@
     "platform-dev": {
         "ext-json": "*"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

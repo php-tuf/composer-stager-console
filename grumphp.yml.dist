@@ -25,7 +25,6 @@ grumphp:
         phpstan:
             use_grumphp_paths: false
         phpunit: ~
-        psalm: ~
         xmllint:
             ignore_patterns:
                 - .idea
@@ -48,7 +47,6 @@ grumphp:
                 - composer_normalize
                 - phpcs
                 - phplint
-                - psalm
                 - phpstan
                 - xmllint
                 - yamllint
