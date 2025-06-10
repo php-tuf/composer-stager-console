@@ -2731,16 +2731,16 @@
         },
         {
             "name": "phpro/grumphp-shim",
-            "version": "v2.12.0",
+            "version": "v2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/grumphp-shim.git",
-                "reference": "a283de39a192213124c2663228e78fa679d65cb3"
+                "reference": "f41a7476e19aae6bfd82de4dabd0b5bebae3c4c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/a283de39a192213124c2663228e78fa679d65cb3",
-                "reference": "a283de39a192213124c2663228e78fa679d65cb3",
+                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/f41a7476e19aae6bfd82de4dabd0b5bebae3c4c4",
+                "reference": "f41a7476e19aae6bfd82de4dabd0b5bebae3c4c4",
                 "shasum": ""
             },
             "require": {
@@ -2784,9 +2784,9 @@
             "description": "GrumPHP Phar distribution",
             "support": {
                 "issues": "https://github.com/phpro/grumphp-shim/issues",
-                "source": "https://github.com/phpro/grumphp-shim/tree/v2.12.0"
+                "source": "https://github.com/phpro/grumphp-shim/tree/v2.13.0"
             },
-            "time": "2025-03-21T14:43:36+00:00"
+            "time": "2025-06-04T13:47:23+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -4557,16 +4557,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "8.18.1",
+            "version": "8.19.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "06b18b3f64979ab31d27c37021838439f3ed5919"
+                "reference": "458d665acd49009efebd7e0cb385d71ae9ac3220"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/06b18b3f64979ab31d27c37021838439f3ed5919",
-                "reference": "06b18b3f64979ab31d27c37021838439f3ed5919",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/458d665acd49009efebd7e0cb385d71ae9ac3220",
+                "reference": "458d665acd49009efebd7e0cb385d71ae9ac3220",
                 "shasum": ""
             },
             "require": {
@@ -4606,7 +4606,7 @@
             ],
             "support": {
                 "issues": "https://github.com/slevomat/coding-standard/issues",
-                "source": "https://github.com/slevomat/coding-standard/tree/8.18.1"
+                "source": "https://github.com/slevomat/coding-standard/tree/8.19.1"
             },
             "funding": [
                 {
@@ -4618,7 +4618,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-22T14:32:30+00:00"
+            "time": "2025-06-09T17:53:57+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
