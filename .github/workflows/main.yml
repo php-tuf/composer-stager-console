@@ -26,6 +26,9 @@ jobs:
             matrix:
                 php: [ "8.2" ]
         steps:
+            -   name: "Disable redis extension"
+                run: "sudo phpdismod redis || true"
+
             -   name: "Set up PHP"
                 uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
                 with:
