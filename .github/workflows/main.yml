@@ -26,20 +26,20 @@ jobs:
             matrix:
                 php: [ "8.2" ]
         steps:
-            -   name: "Disable redis extension"
-                run: "sudo phpdismod redis || true"
-
             -   name: "Set up PHP"
                 uses: shivammathur/setup-php@v2 # https://github.com/marketplace/actions/setup-php-action
                 with:
                     php-version: "${{ matrix.php }}"
                     coverage: none
 
+            -   name: "Disable redis extension"
+                run: "sudo phpdismod redis || true"
+
             -   name: "Checkout code"
                 uses: actions/checkout@v6 # https://github.com/marketplace/actions/checkout
 
             -   name: "Install dependencies"
-                uses: ramsey/composer-install@v3 # https://github.com/marketplace/actions/install-composer-dependencies
+                uses: ramsey/composer-install@v3 # https://github.com/marketplace/actions/install-php-dependencies-with-composer
 
             -   name: "Run all quality checks"
                 run: "composer static"
