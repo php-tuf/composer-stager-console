@@ -16,6 +16,8 @@ final class Application extends DefaultApplication
     public const ACTIVE_DIR_OPTION = 'active-dir';
     public const STAGING_DIR_OPTION = 'staging-dir';
 
+    public const EXCLUDE_OPTION = 'exclude';
+
     public const ACTIVE_DIR_DEFAULT = '.';
     public const STAGING_DIR_DEFAULT = '.composer_staging';
 
@@ -48,6 +50,15 @@ final class Application extends DefaultApplication
                     InputOption::VALUE_REQUIRED,
                     'Use the given directory as staging directory',
                     self::STAGING_DIR_DEFAULT,
+                ),
+            );
+
+            $inputDefinition->addOption(
+                new InputOption(
+                    self::EXCLUDE_OPTION,
+                    'e',
+                    InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                    'Specify paths to exclude from syncing.',
                 ),
             );
         } catch (InvalidArgumentException $e) {
