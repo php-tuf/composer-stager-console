@@ -31,9 +31,7 @@ jobs:
                 with:
                     php-version: "${{ matrix.php }}"
                     coverage: none
-
-            -   name: "Disable redis extension"
-                run: "sudo phpdismod redis || true"
+                    extensions: :redis
 
             -   name: "Checkout code"
                 uses: actions/checkout@v6 # https://github.com/marketplace/actions/checkout
