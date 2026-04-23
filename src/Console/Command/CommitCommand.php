@@ -5,6 +5,7 @@ namespace PhpTuf\ComposerStagerConsole\Console\Command;
 use PhpTuf\ComposerStager\API\Core\CommitterInterface;
 use PhpTuf\ComposerStager\API\Exception\ExceptionInterface;
 use PhpTuf\ComposerStager\API\Path\Factory\PathFactoryInterface;
+use PhpTuf\ComposerStager\API\Path\Factory\PathListFactoryInterface;
 use PhpTuf\ComposerStagerConsole\Console\Output\ProcessOutputCallback;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
@@ -19,9 +20,12 @@ final class CommitCommand extends AbstractCommand
 {
     private const NAME = 'commit';
 
-    public function __construct(private readonly CommitterInterface $committer, PathFactoryInterface $pathFactory)
-    {
-        parent::__construct(self::NAME, $pathFactory);
+    public function __construct(
+        private readonly CommitterInterface $committer,
+        PathFactoryInterface $pathFactory,
+        PathListFactoryInterface $pathListFactory,
+    ) {
+        parent::__construct(self::NAME, $pathFactory, $pathListFactory);
     }
 
     protected function configure(): void
@@ -46,7 +50,7 @@ final class CommitCommand extends AbstractCommand
             $this->committer->commit(
                 $this->getStagingDir(),
                 $this->getActiveDir(),
-                null,
+                $this->getExclusions(),
                 new ProcessOutputCallback($input, $output),
             );
 
