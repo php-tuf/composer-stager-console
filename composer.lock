@@ -2817,16 +2817,16 @@
         },
         {
             "name": "phpro/grumphp-shim",
-            "version": "v2.20.1",
+            "version": "v2.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/grumphp-shim.git",
-                "reference": "d30749b34cf15fa2aa204f2ba9bf012bf218d696"
+                "reference": "70b3ae30d8eaa1a343ab2737eac1737587176326"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/d30749b34cf15fa2aa204f2ba9bf012bf218d696",
-                "reference": "d30749b34cf15fa2aa204f2ba9bf012bf218d696",
+                "url": "https://api.github.com/repos/phpro/grumphp-shim/zipball/70b3ae30d8eaa1a343ab2737eac1737587176326",
+                "reference": "70b3ae30d8eaa1a343ab2737eac1737587176326",
                 "shasum": ""
             },
             "require": {
@@ -2870,9 +2870,9 @@
             "description": "GrumPHP Phar distribution",
             "support": {
                 "issues": "https://github.com/phpro/grumphp-shim/issues",
-                "source": "https://github.com/phpro/grumphp-shim/tree/v2.20.1"
+                "source": "https://github.com/phpro/grumphp-shim/tree/v2.21.0"
             },
-            "time": "2026-04-16T09:51:45+00:00"
+            "time": "2026-05-22T12:18:40+00:00"
         },
         {
             "name": "phpspec/prophecy",
