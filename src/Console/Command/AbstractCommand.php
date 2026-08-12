@@ -3,7 +3,9 @@
 namespace PhpTuf\ComposerStagerConsole\Console\Command;
 
 use PhpTuf\ComposerStager\API\Path\Factory\PathFactoryInterface;
+use PhpTuf\ComposerStager\API\Path\Factory\PathListFactoryInterface;
 use PhpTuf\ComposerStager\API\Path\Value\PathInterface;
+use PhpTuf\ComposerStager\API\Path\Value\PathListInterface;
 use PhpTuf\ComposerStagerConsole\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,8 +26,13 @@ abstract class AbstractCommand extends Command
 
     private PathInterface $stagingDir;
 
-    public function __construct(string $name, protected PathFactoryInterface $pathFactory)
-    {
+    private PathListInterface $exclusions;
+
+    public function __construct(
+        string $name,
+        protected PathFactoryInterface $pathFactory,
+        private ?PathListFactoryInterface $pathListFactory = null,
+    ) {
         parent::__construct($name);
     }
 
@@ -44,10 +51,22 @@ abstract class AbstractCommand extends Command
         $stagingDir = $input->getOption(Application::STAGING_DIR_OPTION);
         assert(is_string($stagingDir));
         $this->stagingDir = $this->pathFactory->create($stagingDir);
+
+        if (!$this->pathListFactory) {
+            return;
+        }
+
+        $exclude = $input->getOption(Application::EXCLUDE_OPTION);
+        $this->exclusions = $this->pathListFactory->create(...$exclude);
     }
 
     protected function getActiveDir(): PathInterface
     {
         return $this->activeDir;
+    }
+
+    protected function getExclusions(): PathListInterface
+    {
+        return $this->exclusions;
     }
 }
