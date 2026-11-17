@@ -15,6 +15,9 @@ updates:
         ignore:
             -   dependency-name: "phpunit/phpunit"
                 versions: [ "10.x", "11.x" ]
+            # Symfony 8 requires PHP 8.4; this project supports PHP 8.2.
+            -   dependency-name: "symfony/*"
+                update-types: [ "version-update:semver-major" ]
 
     -   package-ecosystem: "github-actions"
         directory: "/"
